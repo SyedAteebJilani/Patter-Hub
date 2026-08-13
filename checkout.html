@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Complete Order | Pattern Hub</title>
+    <meta name="description" content="Securely complete your Pattern Hub digital order.">
+    
+    <!-- Preconnect to Font CDNs -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Typography: Cormorant Garamond & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            pink: '#E74A7C',
+                            peach: '#E39794',
+                            lightPeach: '#F2D3CC',
+                            green: '#8F9B53',
+                            yellow: '#F4E3B2',
+                            dark: '#2D2D2D',
+                            white: '#FAFAFA'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Inter"', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 40px -10px rgba(0,0,0,0.05)',
+                        'floating': '0 20px 50px -20px rgba(231, 74, 124, 0.25)',
+                        'toggle': '0 4px 15px rgba(0,0,0,0.08)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --color-primary: #E74A7C;
+            --color-secondary: #E39794;
+            --color-accent-green: #8F9B53;
+            --color-bg-warm: #F4E3B2;
+            --color-bg-light: #FAFAFA;
+            --color-text: #2D2D2D;
+        }
+
+        body {
+            background-color: var(--color-bg-light);
+            color: var(--color-text);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Clean Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(45, 45, 45, 0.2); border-radius: 10px; }
+
+        /* Premium Input Styling */
+        .premium-input {
+            background-color: rgba(45, 45, 45, 0.04);
+            border: 1.5px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .premium-input:focus {
+            outline: none;
+            background-color: #FFFFFF;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 4px rgba(231, 74, 124, 0.1);
+        }
+        .premium-input.error {
+            border-color: #ef4444;
+            background-color: #fef2f2;
+        }
+
+        /* Pill Segmented Control */
+        .location-toggle-container {
+            background: rgba(45, 45, 45, 0.04);
+            border-radius: 999px;
+            padding: 6px;
+            display: flex;
+            position: relative;
+        }
+        .location-toggle-container input[type="radio"] {
+            display: none;
+        }
+        .location-toggle-container label {
+            flex: 1;
+            text-align: center;
+            padding: 14px 10px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-weight: 500;
+            color: rgba(45, 45, 45, 0.5);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+        }
+        .location-toggle-container input[type="radio"]:checked + label {
+            color: var(--color-text);
+            background: #FFFFFF;
+            box-shadow: var(--tw-shadow-toggle);
+        }
+
+        /* Upload Zone */
+        #drop-zone {
+            transition: all 0.4s ease;
+            background: rgba(242, 211, 204, 0.2);
+            border: 1.5px dashed rgba(231, 74, 124, 0.3);
+        }
+        #drop-zone:hover, #drop-zone.dragover {
+            background: rgba(242, 211, 204, 0.4);
+            border-color: var(--color-primary);
+        }
+
+        /* Soft Gradient Background for Image */
+        .image-backdrop {
+            background: radial-gradient(circle at center, rgba(231, 74, 124, 0.08) 0%, rgba(250, 250, 250, 0) 70%);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans text-brand-dark selection:bg-brand-pink selection:text-white pb-10 md:pb-20">
+
+    <header class="w-full top-0 z-50 bg-brand-white/80 backdrop-blur-md sticky border-b border-brand-dark/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex-shrink-0 z-50 relative">
+                    <span class="font-serif text-2xl tracking-wide font-semibold text-brand-pink">Pattern Hub</span>
+                </a>
+                
+                <a href="shop.html" class="text-sm font-medium text-brand-dark/60 hover:text-brand-pink transition-colors flex items-center space-x-2 group">
+                    <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    <span>Return to Shop</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 md:pt-16 min-h-[75vh]">
+        
+        <div id="error-state" class="hidden text-center py-20 gs-reveal">
+            <div class="w-24 h-24 bg-brand-dark/5 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-10 h-10 text-brand-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            </div>
+            <h1 class="font-serif text-4xl text-brand-dark mb-4">Pattern Not Found</h1>
+            <p class="text-brand-dark/60 font-light mb-8 max-w-md mx-auto text-lg">We couldn't locate the specific pattern you were trying to purchase. Please return to the catalog.</p>
+            <a href="shop.html" class="inline-block bg-brand-dark text-white px-10 py-4 rounded-full text-sm tracking-widest uppercase font-medium hover:bg-brand-pink transition-colors shadow-floating">
+                Browse Catalog
+            </a>
+        </div>
+
+        <div id="checkout-container" class="hidden gs-reveal lg:flex lg:items-start lg:gap-16">
+            
+            <!-- LEFT: Order Summary (Sticky on Desktop) -->
+            <aside class="lg:w-2/5 lg:sticky lg:top-32 mb-12 lg:mb-0">
+                <div class="text-center lg:text-left mb-8">
+                    <span class="text-brand-pink text-xs uppercase tracking-widest font-semibold mb-2 block">Secure Checkout</span>
+                    <h1 class="font-serif text-4xl lg:text-5xl text-brand-dark mb-2">Complete Order</h1>
+                </div>
+
+                <div class="relative rounded-3xl p-6 lg:p-8 border border-brand-dark/5 image-backdrop overflow-hidden group">
+                    <div class="aspect-[4/5] w-full max-w-[240px] mx-auto lg:mx-0 rounded-2xl overflow-hidden shadow-soft relative mb-6">
+                        <img id="summary-image" src="" alt="Product" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    
+                    <div>
+                        <span id="summary-category" class="text-xs uppercase tracking-widest font-semibold text-brand-pink mb-2 block">Category</span>
+                        <h2 id="summary-name" class="font-serif text-2xl lg:text-3xl text-brand-dark leading-snug mb-4">Product Name</h2>
+                        
+                        <div class="flex items-center justify-between border-t border-brand-dark/10 pt-4 mt-2">
+                            <span class="text-brand-dark/60 font-light text-sm">Total Amount</span>
+                            <span id="summary-price" class="text-xl lg:text-2xl font-medium text-brand-dark">$0.00 USD</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Desktop Trust Badges -->
+                <div class="hidden lg:flex items-center space-x-6 mt-8 opacity-60">
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-5 h-5 text-brand-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                        <span class="text-xs tracking-wide">Secure</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-5 h-5 text-brand-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+                        <span class="text-xs tracking-wide">Instant Digital Delivery</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- RIGHT: Form Container -->
+            <div class="lg:w-3/5 pb-20">
+                <form id="checkout-form" class="space-y-12" novalidate>
+                    
+                    <section>
+                        <div class="flex items-baseline space-x-3 mb-4">
+                            <span class="text-brand-pink font-serif text-2xl">01.</span>
+                            <h3 class="text-sm uppercase tracking-widest font-semibold text-brand-dark">Purchasing Location</h3>
+                        </div>
+                        
+                        <div class="location-toggle-container">
+                            <input type="radio" name="location" id="loc-pakistan" value="pakistan">
+                            <label for="loc-pakistan" class="text-sm md:text-base">
+                                🇵🇰 Pakistan
+                            </label>
+                            
+                            <input type="radio" name="location" id="loc-international" value="international">
+                            <label for="loc-international" class="text-sm md:text-base">
+                                🌎 International
+                            </label>
+                        </div>
+                        <p id="location-error" class="text-red-500 text-xs mt-3 hidden pl-2">Please select your location to proceed.</p>
+                    </section>
+
+                    <section id="payment-section" class="hidden">
+                        <div class="flex items-baseline space-x-3 mb-4">
+                            <span class="text-brand-pink font-serif text-2xl">02.</span>
+                            <h3 class="text-sm uppercase tracking-widest font-semibold text-brand-dark">Payment Details</h3>
+                        </div>
+                        
+                        <div class="bg-brand-yellow/10 border border-brand-yellow/30 rounded-3xl p-6 lg:p-8 relative overflow-hidden">
+                            <!-- Decor -->
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-brand-yellow/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
+                            
+                            <p class="text-sm md:text-base text-brand-dark/80 mb-6 font-light leading-relaxed relative z-10">
+                                Please transfer exactly <strong id="instruction-price" class="font-semibold text-brand-dark">$0.00 USD</strong> using one of the methods below. Save a screenshot of your successful transaction.
+                            </p>
+
+                            <!-- Pakistan Methods -->
+                            <div id="payment-pakistan" class="hidden space-y-3 relative z-10">
+                                <div class="bg-white p-4 md:p-5 rounded-2xl border border-brand-dark/5 flex justify-between items-center group shadow-sm hover:shadow-md transition-shadow">
+                                    <div>
+                                        <h4 class="text-xs uppercase tracking-widest text-brand-dark/50 mb-1">Easypaisa</h4>
+                                        <p class="text-base font-medium text-brand-dark" id="easypaisa-account">[PLACEHOLDER ACCOUNT NUMBER]</p>
+                                    </div>
+                                    <button type="button" class="copy-btn bg-brand-dark/5 hover:bg-brand-pink hover:text-white text-brand-dark px-4 py-2 rounded-full text-xs font-medium transition-colors" data-copy="easypaisa">
+                                        Copy
+                                    </button>
+                                </div>
+                                <div class="bg-white p-4 md:p-5 rounded-2xl border border-brand-dark/5 flex justify-between items-center group shadow-sm hover:shadow-md transition-shadow">
+                                    <div>
+                                        <h4 class="text-xs uppercase tracking-widest text-brand-dark/50 mb-1">JazzCash</h4>
+                                        <p class="text-base font-medium text-brand-dark" id="jazzcash-account">[PLACEHOLDER ACCOUNT NUMBER]</p>
+                                    </div>
+                                    <button type="button" class="copy-btn bg-brand-dark/5 hover:bg-brand-pink hover:text-white text-brand-dark px-4 py-2 rounded-full text-xs font-medium transition-colors" data-copy="jazzcash">
+                                        Copy
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- International Methods -->
+                            <div id="payment-international" class="hidden relative z-10">
+                                <div class="bg-white p-4 md:p-5 rounded-2xl border border-brand-dark/5 flex justify-between items-center group shadow-sm hover:shadow-md transition-shadow">
+                                    <div class="pr-4">
+                                        <h4 class="text-xs uppercase tracking-widest text-brand-dark/50 mb-1">Payoneer</h4>
+                                        <p class="text-sm md:text-base font-medium text-brand-dark break-all" id="payoneer-account">[PLACEHOLDER PAYMENT DETAILS]</p>
+                                    </div>
+                                    <button type="button" class="copy-btn flex-shrink-0 bg-brand-dark/5 hover:bg-brand-pink hover:text-white text-brand-dark px-4 py-2 rounded-full text-xs font-medium transition-colors" data-copy="payoneer">
+                                        Copy
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section>
+                        <div class="flex items-baseline space-x-3 mb-6">
+                            <span class="text-brand-pink font-serif text-2xl">03.</span>
+                            <h3 class="text-sm uppercase tracking-widest font-semibold text-brand-dark">Your Details</h3>
+                        </div>
+                        
+                        <div class="space-y-5">
+                            <div>
+                                <label for="name" class="block text-xs uppercase tracking-widest text-brand-dark/60 mb-2 pl-2">Full Name</label>
+                                <input type="text" id="name" name="name" required placeholder="Jane Doe" 
+                                    class="premium-input w-full rounded-2xl px-5 py-4 text-base text-brand-dark placeholder-brand-dark/30">
+                                <p class="error-msg text-red-500 text-xs mt-2 pl-2 hidden">Please provide your full name.</p>
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-xs uppercase tracking-widest text-brand-dark/60 mb-2 pl-2">Email Address</label>
+                                <input type="email" id="email" name="email" required placeholder="jane@example.com" 
+                                    class="premium-input w-full rounded-2xl px-5 py-4 text-base text-brand-dark placeholder-brand-dark/30">
+                                <p class="text-xs text-brand-dark/40 pl-2 mt-1 font-light">The digital pattern will be sent to this address.</p>
+                                <p class="error-msg text-red-500 text-xs mt-2 pl-2 hidden">Please enter a valid email address.</p>
+                            </div>
+
+                            <div>
+                                <label for="whatsapp" class="block text-xs uppercase tracking-widest text-brand-dark/60 mb-2 pl-2">WhatsApp Number</label>
+                                <input type="tel" id="whatsapp" name="whatsapp" required placeholder="+1 234 567 8900" 
+                                    class="premium-input w-full rounded-2xl px-5 py-4 text-base text-brand-dark placeholder-brand-dark/30">
+                                <p class="error-msg text-red-500 text-xs mt-2 pl-2 hidden">Please provide your WhatsApp number.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section>
+                        <div class="flex items-baseline space-x-3 mb-6">
+                            <span class="text-brand-pink font-serif text-2xl">04.</span>
+                            <h3 class="text-sm uppercase tracking-widest font-semibold text-brand-dark">Payment Confirmation</h3>
+                        </div>
+                        
+                        <div id="drop-zone" class="relative rounded-3xl p-10 text-center cursor-pointer group">
+                            <input type="file" id="screenshot" accept="image/png, image/jpeg, image/jpg, image/webp" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" required>
+                            
+                            <!-- Initial Upload Prompt -->
+                            <div id="upload-prompt" class="flex flex-col items-center pointer-events-none">
+                                <div class="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                                    <svg class="w-7 h-7 text-brand-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                                </div>
+                                <span class="font-serif text-2xl text-brand-dark mb-1">Upload Screenshot</span>
+                                <span class="text-sm font-light text-brand-dark/60 px-4">Tap to choose a JPG or PNG from your device</span>
+                            </div>
+
+                            <!-- Image Preview State -->
+                            <div id="upload-preview" class="hidden flex-col items-center w-full z-20 relative">
+                                <div class="relative w-full max-w-[180px] aspect-[4/5] rounded-xl overflow-hidden shadow-md mx-auto mb-4 border-2 border-white">
+                                    <img id="preview-img" src="" alt="Screenshot" class="w-full h-full object-cover">
+                                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity cursor-pointer">
+                                        <span class="text-white text-xs font-medium tracking-widest uppercase">Replace</span>
+                                    </div>
+                                </div>
+                                <p id="file-name" class="text-sm font-medium text-brand-dark truncate max-w-full px-4 mb-1"></p>
+                                <p class="text-xs text-brand-dark/50">Image attached successfully</p>
+                            </div>
+                        </div>
+                        <p id="screenshot-error" class="text-red-500 text-xs mt-3 pl-2 hidden">A screenshot of your payment is required.</p>
+                    </section>
+
+                    <div class="pt-6 border-t border-brand-dark/10">
+                        <button type="submit" id="submit-btn" class="w-full bg-brand-dark text-white py-5 rounded-full text-sm tracking-widest uppercase font-medium hover:bg-brand-pink transition-all duration-300 shadow-floating flex justify-center items-center group">
+                            <span>Submit Order</span>
+                            <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" id="submit-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                            
+                            <!-- Spinner -->
+                            <svg id="submit-spinner" class="animate-spin hidden ml-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </button>
+                        <p class="text-center text-xs text-brand-dark/40 mt-6 font-light px-4">
+                            By submitting, you confirm that the payment has been completed accurately. Your digital file will be sent manually after verification.
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="success-state" class="hidden min-h-[60vh] flex flex-col items-center justify-center text-center py-10 px-4 gs-reveal relative">
+            
+            <!-- Soft background decor -->
+            <div class="absolute inset-0 bg-brand-pink/5 rounded-3xl -z-10 transform scale-95"></div>
+            
+            <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-8 shadow-toggle relative">
+                <!-- Outer pulse -->
+                <div class="absolute inset-0 bg-brand-green/20 rounded-full animate-ping opacity-75"></div>
+                <svg class="w-10 h-10 text-brand-green relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            
+            <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl text-brand-dark mb-4">Thank You!</h1>
+            <p class="text-brand-dark/80 font-light mb-10 max-w-md mx-auto text-lg leading-relaxed">
+                Your order has been beautifully received. We will verify your payment and email your digital pattern to <br><strong id="success-email" class="font-medium text-brand-dark"></strong>.
+            </p>
+            
+            <!-- Mini Order Summary -->
+            <div class="w-full max-w-sm mx-auto bg-white p-4 rounded-2xl shadow-sm border border-brand-dark/5 mb-10 text-left flex items-center space-x-4">
+                 <div class="w-14 h-14 flex-shrink-0 rounded-lg overflow-hidden bg-brand-lightPeach/30">
+                    <img id="success-image" src="" alt="Product" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <h3 id="success-name" class="font-serif text-lg text-brand-dark leading-tight mb-0.5 truncate">Product Name</h3>
+                    <span id="success-price" class="text-sm font-medium text-brand-dark/60">$0.00 USD</span>
+                </div>
+            </div>
+            
+            <a href="shop.html" class="inline-block bg-brand-dark text-white px-10 py-4 rounded-full text-sm tracking-widest uppercase font-medium hover:bg-brand-pink transition-colors shadow-floating">
+                Continue Browsing
+            </a>
+        </div>
+    </main>
+
+    <footer class="bg-brand-dark text-white pt-16 pb-8 px-4 sm:px-6 lg:px-8 mt-auto">
+        <div class="max-w-6xl mx-auto text-center lg:text-left">
+            <div class="flex flex-col lg:flex-row justify-between items-center gap-8 border-b border-white/10 pb-12 mb-8">
+                <a href="index.html" class="font-serif text-3xl text-brand-pink block">Pattern Hub</a>
+                <div class="flex flex-wrap justify-center gap-6">
+                    <a href="shop.html" class="text-white/60 hover:text-brand-pink transition-colors text-sm font-light">Shop Catalog</a>
+                    <a href="index.html#custom-order" class="text-white/60 hover:text-brand-pink transition-colors text-sm font-light">Custom Order</a>
+                    <a href="index.html#faq" class="text-white/60 hover:text-brand-pink transition-colors text-sm font-light">FAQ</a>
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-center lg:text-left">
+                <p class="text-white/40 text-xs font-light">© 2026 Pattern Hub. All rights reserved.</p>
+                <p class="text-white/40 text-xs font-light tracking-wide">Developed and Designed by Ateeb Jilani</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- 1. CENTRALIZED CONFIGURATION ---
+            
+            const paymentDetails = {
+                pakistan: {
+                    easypaisa: "[PLACEHOLDER ACCOUNT NUMBER]",
+                    jazzcash: "[PLACEHOLDER ACCOUNT NUMBER]"
+                },
+                international: {
+                    payoneer: "[PLACEHOLDER PAYMENT DETAILS]"
+                }
+            };
+
+            // Inject placeholders into DOM
+            document.getElementById('easypaisa-account').textContent = paymentDetails.pakistan.easypaisa;
+            document.getElementById('jazzcash-account').textContent = paymentDetails.pakistan.jazzcash;
+            document.getElementById('payoneer-account').textContent = paymentDetails.international.payoneer;
+
+            // --- 2. PRODUCT DATA SYSTEM ---
+            // Generates the exact 140 products to match the Shop page data structure
+            const baseCrochet = [
+                { name: "Summer Breeze Top", price: 12.00, image: "https://images.unsplash.com/photo-1601633519894-35dc51272718?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+                { name: "Chunky Cozy Blanket", price: 10.00, image: "https://images.unsplash.com/photo-1584992236310-6edddc08acff?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+                { name: "Boho Wall Hanging", price: 9.00, image: "https://images.unsplash.com/photo-1528359487770-9856fdbba1d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+                { name: "Daisy Bucket Hat", price: 7.00, image: "https://images.unsplash.com/photo-1589254065878-42c9da997008?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+                { name: "Vintage Cardigan", price: 16.00, image: "https://images.unsplash.com/photo-1574291196307-e837be704e67?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" }
+            ];
+
+            const baseSewing = [
+                { name: "Linen Wrap Dress", price: 15.00, image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+                { name: "Classic Tote Bag", price: 8.00, image: "https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+                { name: "Everyday Culottes", price: 14.00, image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+                { name: "Silk Camisole", price: 11.00, image: "https://images.unsplash.com/photo-1520006403909-838d6b92c22e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
+                { name: "High-Waist Trousers", price: 18.00, image: "https://images.unsplash.com/photo-1584370848010-d7fe6bc767ec?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" }
+            ];
+
+            // Specific featured IDs from homepage
+            const featuredOverrides = [
+                { id: "prod_c01", name: "Summer Breeze Top", category: "Crochet", price: 12.00, image: baseCrochet[0].image },
+                { id: "prod_s01", name: "Linen Wrap Dress", category: "Sewing", price: 15.00, image: baseSewing[0].image },
+                { id: "prod_c02", name: "Chunky Cozy Blanket", category: "Crochet", price: 10.00, image: baseCrochet[1].image },
+                { id: "prod_s02", name: "Classic Tote Bag", category: "Sewing", price: 8.00, image: baseSewing[1].image },
+                { id: "prod_c03", name: "Boho Wall Hanging", category: "Crochet", price: 9.00, image: baseCrochet[2].image },
+                { id: "prod_s03", name: "Everyday Culottes", category: "Sewing", price: 14.00, image: baseSewing[2].image },
+                { id: "prod_c04", name: "Daisy Bucket Hat", category: "Crochet", price: 7.00, image: baseCrochet[3].image },
+                { id: "prod_s04", name: "Silk Camisole", category: "Sewing", price: 11.00, image: baseSewing[3].image },
+                { id: "prod_c05", name: "Vintage Cardigan", category: "Crochet", price: 16.00, image: baseCrochet[4].image },
+                { id: "prod_s05", name: "High-Waist Trousers", category: "Sewing", price: 18.00, image: baseSewing[4].image }
+            ];
+
+            const allProducts = [
+                ...featuredOverrides,
+                ...Array.from({ length: 70 }, (_, i) => ({
+                    id: `crochet_${(i + 1).toString().padStart(3, '0')}`,
+                    name: `${baseCrochet[i % 5].name} Vol. ${Math.floor(i / 5) + 1}`,
+                    category: "Crochet",
+                    price: baseCrochet[i % 5].price,
+                    image: baseCrochet[i % 5].image
+                })),
+                ...Array.from({ length: 70 }, (_, i) => ({
+                    id: `sewing_${(i + 1).toString().padStart(3, '0')}`,
+                    name: `${baseSewing[i % 5].name} Vol. ${Math.floor(i / 5) + 1}`,
+                    category: "Sewing",
+                    price: baseSewing[i % 5].price,
+                    image: baseSewing[i % 5].image
+                }))
+            ];
+
+            // --- 3. DOM ELEMENTS ---
+            const checkoutContainer = document.getElementById('checkout-container');
+            const errorState = document.getElementById('error-state');
+            const successState = document.getElementById('success-state');
+            
+            const locRadios = document.getElementsByName('location');
+            const paymentSection = document.getElementById('payment-section');
+            const payPk = document.getElementById('payment-pakistan');
+            const payIntl = document.getElementById('payment-international');
+            
+            const fileInput = document.getElementById('screenshot');
+            const dropZone = document.getElementById('drop-zone');
+            const uploadPrompt = document.getElementById('upload-prompt');
+            const uploadPreview = document.getElementById('upload-preview');
+            const previewImg = document.getElementById('preview-img');
+            const fileNameDisp = document.getElementById('file-name');
+            
+            const form = document.getElementById('checkout-form');
+            const submitBtn = document.getElementById('submit-btn');
+
+            let selectedProduct = null;
+
+            // --- 4. INITIALIZATION (Product Lookup) ---
+            const urlParams = new URLSearchParams(window.location.search);
+            // Fallback to 'prod_c01' so the form is visible when previewed directly without a URL parameter
+            const productId = urlParams.get('product') || 'prod_c01';
+
+            if (productId) {
+                selectedProduct = allProducts.find(p => p.id === productId);
+                
+                if (selectedProduct) {
+                    // Populate Main Summary
+                    document.getElementById('summary-image').src = selectedProduct.image;
+                    document.getElementById('summary-name').textContent = selectedProduct.name;
+                    document.getElementById('summary-category').textContent = selectedProduct.category;
+                    
+                    const priceStr = `$${selectedProduct.price.toFixed(2)} USD`;
+                    document.getElementById('summary-price').textContent = priceStr;
+                    document.getElementById('instruction-price').textContent = priceStr;
+                    
+                    // Populate Success Summary
+                    document.getElementById('success-image').src = selectedProduct.image;
+                    document.getElementById('success-name').textContent = selectedProduct.name;
+                    document.getElementById('success-price').textContent = priceStr;
+
+                    // Color coordinate category text
+                    if(selectedProduct.category === 'Sewing') {
+                        document.getElementById('summary-category').classList.replace('text-brand-pink', 'text-brand-green');
+                    }
+
+                    // Reveal Checkout
+                    checkoutContainer.classList.remove('hidden');
+                    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                        gsap.from("#checkout-container > *", {
+                            y: 30, opacity: 0, duration: 0.8, stagger: 0.15, ease: "power2.out"
+                        });
+                    }
+                } else {
+                    showError(); // ID not found
+                }
+            } else {
+                showError(); // No ID provided
+            }
+
+            function showError() {
+                errorState.classList.remove('hidden');
+                if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    gsap.from(errorState, { y: 20, opacity: 0, duration: 0.6 });
+                }
+            }
+
+            // --- 5. LOCATION TOGGLE INTERACTION ---
+            locRadios.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    const loc = e.target.value;
+                    document.getElementById('location-error').classList.add('hidden');
+                    
+                    // Reveal Payment Section smoothly
+                    if (paymentSection.classList.contains('hidden')) {
+                        paymentSection.classList.remove('hidden');
+                        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                            gsap.from(paymentSection, { height: 0, opacity: 0, duration: 0.5, ease: "power2.out" });
+                        }
+                    }
+
+                    // Toggle Content
+                    if (loc === 'pakistan') {
+                        payIntl.classList.add('hidden');
+                        payPk.classList.remove('hidden');
+                        gsap.fromTo(payPk, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 });
+                    } else if (loc === 'international') {
+                        payPk.classList.add('hidden');
+                        payIntl.classList.remove('hidden');
+                        gsap.fromTo(payIntl, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 });
+                    }
+                });
+            });
+
+            // --- 6. CUSTOM FILE UPLOAD UX ---
+            function handleFile(file) {
+                if (file && file.type.startsWith('image/')) {
+                    document.getElementById('screenshot-error').classList.add('hidden');
+                    fileNameDisp.textContent = file.name;
+                    
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        previewImg.src = e.target.result;
+                        uploadPrompt.classList.add('hidden');
+                        uploadPreview.classList.remove('hidden');
+                        uploadPreview.classList.add('flex');
+                        dropZone.classList.replace('p-10', 'p-6'); // Tighter padding when image is present
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    fileInput.value = '';
+                    uploadPreview.classList.add('hidden');
+                    uploadPreview.classList.remove('flex');
+                    uploadPrompt.classList.remove('hidden');
+                    dropZone.classList.replace('p-6', 'p-10');
+                    document.getElementById('screenshot-error').textContent = 'Please upload a valid image file (JPG, PNG, WEBP).';
+                    document.getElementById('screenshot-error').classList.remove('hidden');
+                }
+            }
+
+            fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+
+            // Drag and drop events
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+            });
+            function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, () => dropZone.classList.add('dragover'), false);
+            });
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, () => dropZone.classList.remove('dragover'), false);
+            });
+            
+            dropZone.addEventListener('drop', (e) => {
+                if (e.dataTransfer.files.length) {
+                    fileInput.files = e.dataTransfer.files;
+                    handleFile(e.dataTransfer.files[0]);
+                }
+            });
+
+            // --- 7. COPY TO CLIPBOARD ---
+            document.querySelectorAll('.copy-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = btn.getAttribute('data-copy');
+                    const text = paymentDetails[targetId === 'payoneer' ? 'international' : 'pakistan'][targetId];
+                    
+                    try {
+                        // Secure copy method with fallback for iframe preview compatibility
+                        if (navigator.clipboard && window.isSecureContext) {
+                            navigator.clipboard.writeText(text);
+                        } else {
+                            const tempInput = document.createElement('textarea');
+                            tempInput.value = text;
+                            document.body.appendChild(tempInput);
+                            tempInput.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(tempInput);
+                        }
+                        
+                        const originalText = btn.textContent;
+                        btn.textContent = 'Copied!';
+                        btn.classList.replace('text-brand-dark', 'text-brand-green');
+                        setTimeout(() => {
+                            btn.textContent = originalText;
+                            btn.classList.replace('text-brand-green', 'text-brand-dark');
+                        }, 2000);
+                    } catch (err) {
+                        console.error('Copy failed', err);
+                    }
+                });
+            });
+
+            // --- 8. FORM VALIDATION & SUBMIT ---
+            const textInputs = ['name', 'email', 'whatsapp'];
+            
+            // Clear errors on typing
+            textInputs.forEach(id => {
+                const el = document.getElementById(id);
+                el.addEventListener('input', () => {
+                    el.nextElementSibling.nextElementSibling.classList.add('hidden'); // .error-msg is after label and input
+                    el.classList.remove('error');
+                });
+            });
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                let isValid = true;
+
+                // Validate Location
+                if (!document.querySelector('input[name="location"]:checked')) {
+                    document.getElementById('location-error').classList.remove('hidden');
+                    isValid = false;
+                    document.querySelector('.location-toggle-container').scrollIntoView({behavior: 'smooth', block: 'center'});
+                }
+
+                // Validate Texts
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                textInputs.forEach(id => {
+                    const el = document.getElementById(id);
+                    // Due to DOM structure: label -> input -> optional text -> error-msg
+                    const errorEl = el.parentElement.querySelector('.error-msg');
+                    
+                    if (!el.value.trim()) {
+                        errorEl.classList.remove('hidden');
+                        el.classList.add('error');
+                        isValid = false;
+                    } else if (id === 'email' && !emailRegex.test(el.value.trim())) {
+                        errorEl.textContent = 'Please enter a valid email address.';
+                        errorEl.classList.remove('hidden');
+                        el.classList.add('error');
+                        isValid = false;
+                    }
+                });
+
+                // Validate File
+                if (fileInput.files.length === 0) {
+                    document.getElementById('screenshot-error').classList.remove('hidden');
+                    isValid = false;
+                }
+
+                // Submit Flow
+                if (isValid) {
+                    const btnText = submitBtn.querySelector('span');
+                    const arrow = document.getElementById('submit-arrow');
+                    const spinner = document.getElementById('submit-spinner');
+                    
+                    btnText.textContent = 'Processing...';
+                    arrow.classList.add('hidden');
+                    spinner.classList.remove('hidden');
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('opacity-80', 'cursor-not-allowed');
+
+                    // Simulate API delay
+                    setTimeout(() => {
+                        showSuccess();
+                    }, 1500);
+                }
+            });
+
+            function showSuccess() {
+                // Transfer email to success screen
+                document.getElementById('success-email').textContent = document.getElementById('email').value.trim();
+                
+                // Animate Out & In
+                gsap.to(checkoutContainer, { 
+                    opacity: 0, 
+                    y: -20, 
+                    duration: 0.4, 
+                    onComplete: () => {
+                        checkoutContainer.classList.add('hidden');
+                        checkoutContainer.classList.remove('lg:flex');
+                        
+                        successState.classList.remove('hidden');
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        
+                        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                            gsap.fromTo("#success-state > *", 
+                                { y: 30, opacity: 0 },
+                                { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "power2.out" }
+                            );
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
