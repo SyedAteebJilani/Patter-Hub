@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pattern Hub | Premium Digital Crochet & Sewing Patterns</title>
-    <meta name="description" content="Discover beautiful, handcrafted digital crochet and sewing patterns. Create your next masterpiece with Pattern Hub.">
-    
+    <meta name="description"
+        content="Discover beautiful, handcrafted digital crochet and sewing patterns. Create your next masterpiece with Pattern Hub.">
+
     <!-- Preconnect to Font CDNs -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
+
     <!-- Typography: Cormorant Garamond (Headings) & Inter (Body) -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- GSAP for Scroll Animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -30,6 +34,8 @@
                             pink: '#E74A7C',      // Primary Accent from reference
                             peach: '#E39794',     // Soft secondary
                             lightPeach: '#F2D3CC',// Background soft
+                            pleasingPink: '#F4E1E6', // New Luxury Bespoke Background
+                            whitishPink: '#FDF6F8', // Light Whitish Pink
                             green: '#8F9B53',     // Natural accent
                             yellow: '#F4E3B2',    // Warm highlight/background
                             dark: '#2D2D2D',      // Text color
@@ -41,8 +47,9 @@
                         sans: ['"Inter"', 'sans-serif'],
                     },
                     boxShadow: {
-                        'soft': '0 10px 40px -10px rgba(0,0,0,0.05)',
-                        'floating': '0 20px 50px -20px rgba(231, 74, 124, 0.15)',
+                        'soft': '0 10px 40px -10px rgba(0,0,0,0.03)',
+                        'floating': '0 20px 50px -20px rgba(0,0,0,0.05)',
+                        'floating-hover': '0 30px 60px -20px rgba(0,0,0,0.08)',
                     }
                 }
             }
@@ -56,7 +63,8 @@
             --color-secondary: #E39794;
             --color-accent-green: #8F9B53;
             --color-bg-warm: #F4E3B2;
-            --color-bg-light: #FAFAFA;
+            --color-bg-light: #F4E1E6;
+            /* Pleasing Pink */
             --color-text: #2D2D2D;
         }
 
@@ -72,9 +80,11 @@
         ::-webkit-scrollbar {
             width: 8px;
         }
+
         ::-webkit-scrollbar-track {
             background: var(--color-bg-light);
         }
+
         ::-webkit-scrollbar-thumb {
             background: var(--color-secondary);
             border-radius: 4px;
@@ -82,19 +92,23 @@
 
         /* Glassmorphism utilities - used sparingly */
         .glass-nav {
-            background: rgba(250, 250, 250, 0.85);
+            background: rgba(253, 246, 248, 0.9);
+            /* Whitish Pink with transparency */
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(227, 151, 148, 0.2);
+            border-bottom: 1px solid rgba(231, 74, 124, 0.1);
+            /* Very thin, low contrast border */
         }
 
         /* Image hover zoom utility */
         .img-hover-zoom {
             overflow: hidden;
         }
+
         .img-hover-zoom img {
             transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
+
         .img-hover-zoom:hover img {
             transform: scale(1.05);
         }
@@ -104,6 +118,7 @@
             position: relative;
             display: inline-block;
         }
+
         .link-underline::after {
             content: '';
             position: absolute;
@@ -116,6 +131,7 @@
             transform-origin: bottom right;
             transition: transform 0.4s cubic-bezier(0.86, 0, 0.07, 1);
         }
+
         .link-underline:hover::after {
             transform: scaleX(1);
             transform-origin: bottom left;
@@ -129,35 +145,88 @@
             inset: 0;
             z-index: 0;
         }
+
         .carousel-slide.active {
             opacity: 1;
             z-index: 10;
         }
-        
+
+        /* Marquee Animation */
+        @keyframes marquee {
+            0% {
+                transform: translateX(0%);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+
+            /* Translate by half since we duplicate the set */
+        }
+
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: marquee 30s linear infinite;
+        }
+
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+
+        /* Curated Right-Scroll Animation */
+        @keyframes scroll-right {
+            0% {
+                transform: translateX(-50%);
+            }
+            100% {
+                transform: translateX(0%);
+            }
+        }
+
+        .curated-track {
+            display: flex;
+            width: max-content;
+            animation: scroll-right 45s linear infinite;
+        }
+
+        .curated-track:hover {
+            animation-play-state: paused;
+        }
+
         /* Reduced motion support */
         @media (prefers-reduced-motion: reduce) {
-            *, ::before, ::after {
+
+            *,
+            ::before,
+            ::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
                 scroll-behavior: auto !important;
             }
+
+            .marquee-track, .curated-track {
+                animation: none;
+            }
         }
-        
+
         /* Mobile menu overlay */
         #mobile-menu {
             clip-path: circle(0% at top right);
             transition: clip-path 0.6s cubic-bezier(0.77, 0, 0.175, 1);
         }
+
         #mobile-menu.open {
             clip-path: circle(150% at top right);
         }
     </style>
 </head>
+
 <body class="font-sans text-brand-dark selection:bg-brand-pink selection:text-white">
 
     <!-- NAVIGATION -->
-    <header class="fixed w-full top-0 z-50 transition-all duration-300" id="navbar">
+    <header class="fixed w-full top-0 z-50 transition-all duration-300 bg-brand-whitishPink/90 backdrop-blur-md border-b border-brand-pink/10" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <!-- Logo -->
@@ -167,26 +236,50 @@
 
                 <!-- Desktop Navigation -->
                 <nav class="hidden md:flex space-x-8 items-center">
-                    <a href="#" class="text-sm tracking-wide hover:text-brand-pink transition-colors link-underline">Home</a>
-                    <a href="shop.html?category=crochet" class="text-sm tracking-wide hover:text-brand-pink transition-colors link-underline">Crochet</a>
-                    <a href="shop.html?category=sewing" class="text-sm tracking-wide hover:text-brand-pink transition-colors link-underline">Sewing</a>
-                    <a href="./images/Placeholder.png" class="text-sm tracking-wide hover:text-brand-pink transition-colors link-underline">Custom Order</a>
-                    <a href="#about" class="text-sm tracking-wide hover:text-brand-pink transition-colors link-underline">About</a>
-                    <a href="#faq" class="text-sm tracking-wide hover:text-brand-pink transition-colors link-underline">FAQ</a>
+                    <a href="#"
+                        class="text-sm tracking-wide hover:text-brand-pink transition-colors link-underline">Home</a>
+                    <a href="shop.html?category=crochet"
+                        class="text-sm tracking-wide hover:text-brand-pink transition-colors link-underline">Crochet</a>
+                    <a href="./custom_order .html"
+                        class="text-sm tracking-wide hover:text-brand-pink transition-colors link-underline">Custom
+                        Order</a>
+                    <a href="#about"
+                        class="text-sm tracking-wide hover:text-brand-pink transition-colors link-underline">About</a>
+                    <a href="#faq"
+                        class="text-sm tracking-wide hover:text-brand-pink transition-colors link-underline">FAQ</a>
                 </nav>
 
-                <!-- Desktop CTA -->
-                <div class="hidden md:flex items-center">
-                    <a href="#shop-categories" class="bg-brand-pink text-white px-6 py-2.5 rounded-full text-sm tracking-wide hover:bg-[#d43d6a] transition-colors shadow-floating">
+                <!-- Desktop CTA & Search -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <button
+                        class="search-btn text-brand-dark hover:text-brand-pink transition-colors focus:outline-none"
+                        aria-label="Search">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </button>
+                    <a href="#shop-categories"
+                        class="bg-brand-pink text-white px-6 py-2.5 rounded-full text-sm tracking-wide hover:bg-[#d43d6a] transition-colors shadow-floating">
                         Explore Collection
                     </a>
                 </div>
 
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden flex items-center z-50 relative">
-                    <button id="mobile-menu-btn" class="text-brand-dark focus:outline-none p-2" aria-label="Toggle menu">
+                <!-- Mobile Icons -->
+                <div class="md:hidden flex items-center space-x-4 z-50 relative">
+                    <button
+                        class="search-btn text-brand-dark hover:text-brand-pink transition-colors focus:outline-none"
+                        aria-label="Search">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path id="menu-icon-path" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </button>
+                    <button id="mobile-menu-btn" class="text-brand-dark focus:outline-none p-2"
+                        aria-label="Toggle menu">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path id="menu-icon-path" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
                     </button>
                 </div>
@@ -194,145 +287,130 @@
         </div>
 
         <!-- Mobile Navigation Overlay -->
-        <div id="mobile-menu" class="fixed inset-0 bg-brand-lightPeach bg-opacity-95 backdrop-blur-md z-40 flex flex-col justify-center items-center h-screen w-screen">
+        <div id="mobile-menu"
+            class="fixed inset-0 bg-brand-whitishPink/95 backdrop-blur-xl z-40 flex flex-col justify-center items-center h-screen w-screen">
             <nav class="flex flex-col space-y-6 text-center w-full px-6">
                 <a href="#" class="mobile-link font-serif text-3xl text-brand-dark hover:text-brand-pink">Home</a>
-                <a href="shop.html?category=crochet" class="mobile-link font-serif text-3xl text-brand-dark hover:text-brand-pink">Crochet</a>
-                <a href="shop.html?category=sewing" class="mobile-link font-serif text-3xl text-brand-dark hover:text-brand-pink">Sewing</a>
-                <a href="./custom_order .html" class="mobile-link font-serif text-3xl text-brand-dark hover:text-brand-pink">Custom Order</a>
+                <a href="shop.html?category=crochet"
+                    class="mobile-link font-serif text-3xl text-brand-dark hover:text-brand-pink">Crochet</a>
+                <a href="./custom_order .html"
+                    class="mobile-link font-serif text-3xl text-brand-dark hover:text-brand-pink">Custom Order</a>
                 <a href="#about" class="mobile-link font-serif text-3xl text-brand-dark hover:text-brand-pink">About</a>
                 <a href="#faq" class="mobile-link font-serif text-3xl text-brand-dark hover:text-brand-pink">FAQ</a>
                 <div class="pt-6">
-                    <a href="#shop-categories" class="inline-block bg-brand-pink text-white px-8 py-3 rounded-full text-base tracking-wide shadow-floating w-full max-w-xs">
+                    <a href="#shop-categories"
+                        class="inline-block bg-brand-pink text-white px-8 py-3 rounded-full text-base tracking-wide shadow-floating w-full max-w-xs">
                         Explore Collection
                     </a>
                 </div>
             </nav>
         </div>
+
+        <!-- Global Search Overlay -->
+        <div id="search-overlay"
+            class="fixed inset-0 bg-white z-[100] flex flex-col hidden opacity-0">
+            <div class="w-full flex justify-end p-6 md:p-10">
+                <button id="close-search-btn"
+                    class="text-brand-dark hover:text-brand-pink transition-colors focus:outline-none p-2">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div
+                class="flex-grow flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full pb-32">
+                <h2 class="font-serif text-3xl md:text-5xl text-brand-dark mb-8 tracking-wide">What are you looking for?
+                </h2>
+                <div class="w-full relative">
+                    <input type="text" id="global-search-input" placeholder="Search crochet patterns..."
+                        class="w-full bg-transparent border-b-2 border-brand-dark/20 text-2xl md:text-4xl text-brand-dark placeholder-brand-dark/30 pb-4 focus:outline-none focus:border-brand-pink transition-colors font-light">
+                    <button id="execute-search-btn"
+                        class="absolute right-2 top-2 text-brand-dark/50 hover:text-brand-pink transition-colors">
+                        <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </button>
+                    <div id="search-suggestions" class="absolute top-full left-0 w-full mt-2 bg-white rounded-xl shadow-floating max-h-[40vh] overflow-y-auto flex flex-col z-50 empty:hidden border border-brand-dark/5"></div>
+                </div>
+                <p class="text-sm font-light text-brand-dark/50 mt-6 tracking-wide">Press <kbd
+                        class="font-sans px-2 py-1 bg-white rounded border border-brand-dark/10 shadow-sm text-xs">Enter</kbd>
+                    to search</p>
+            </div>
+        </div>
     </header>
 
     <main>
-        <!-- HERO CAROUSEL -->
-        <section class="relative h-[85vh] min-h-[600px] w-full bg-brand-yellow overflow-hidden flex items-center pt-10" id="hero">
-            <!-- Carousel Container -->
-            <div id="carousel" class="absolute inset-0 w-full h-full">
-                <!-- Slide 1 -->
-                <div class="carousel-slide active bg-brand-yellow flex flex-col md:flex-row items-center justify-center h-full w-full px-4 sm:px-8 md:px-16 lg:px-24">
-                    <div class="w-full md:w-1/2 flex flex-col justify-center items-start z-20 text-left pt-20 md:pt-0 pb-10 md:pb-0 pr-0 md:pr-12">
-                        <!-- <span class="text-brand-pink text-sm uppercase tracking-widest font-semibold mb-4 block gs-reveal">Digital Crochet Patterns</span> -->
-                        <h1 class="font-serif text-5xl md:text-6xl lg:text-7xl leading-tight text-brand-dark mb-6 gs-reveal">Discover Beautiful<br><span class="italic text-brand-pink">Patterns</span></h1>
-                        <p class="text-base md:text-lg text-brand-dark/80 max-w-md mb-8 font-light gs-reveal">Craft your next masterpiece with our carefully curated digital patterns for creative makers.</p>
-                        <div class="flex flex-wrap gap-4 gs-reveal">
-                            <a href="#shop-categories" class="bg-brand-dark text-white px-8 py-3.5 rounded-full text-sm tracking-wide hover:bg-black transition-colors">
-                                Explore Collection
-                            </a>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-1/2 h-1/2 md:h-full relative flex items-center justify-center p-4 gs-reveal">
-                        <!-- Placeholder for beautiful crochet imagery -->
-                        <div class="w-full h-full max-h-[60vh] max-w-md rounded-2xl overflow-hidden shadow-soft relative group">
-                             <img src="./images/Placeholder.png" alt="Beautiful crochet work" class="object-cover w-full h-full transition-transform duration-1000 group-hover:scale-105">
-                             <div class="absolute inset-0 bg-brand-peach/10 mix-blend-multiply"></div>
-                        </div>
-                    </div>
-                </div>
+        <!-- HERO MARQUEE -->
+        <section
+            class="relative h-[85vh] min-h-[600px] w-full bg-brand-pleasingPink overflow-hidden flex items-center justify-center pt-20"
+            id="hero">
 
-                <!-- Slide 2 -->
-                <div class="carousel-slide bg-brand-lightPeach flex flex-col md:flex-row-reverse items-center justify-center h-full w-full px-4 sm:px-8 md:px-16 lg:px-24">
-                    <div class="w-full md:w-1/2 flex flex-col justify-center items-start z-20 text-left pt-20 md:pt-0 pb-10 md:pb-0 pl-0 md:pl-12">
-                        <!-- <span class="text-brand-green text-sm uppercase tracking-widest font-semibold mb-4 block">Elegant Sewing Patterns</span> -->
-                        <h1 class="font-serif text-5xl md:text-6xl lg:text-7xl leading-tight text-brand-dark mb-6">Create Your Own<br><span class="italic text-brand-green">Wardrobe</span></h1>
-                        <p class="text-base md:text-lg text-brand-dark/80 max-w-md mb-8 font-light">Detailed, easy-to-follow digital sewing patterns designed for modern aesthetics.</p>
-                        <div class="flex flex-wrap gap-4">
-                            <a href="shop.html?category=sewing" class="bg-brand-dark text-white px-8 py-3.5 rounded-full text-sm tracking-wide hover:bg-black transition-colors">
-                                Shop Sewing
-                            </a>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-1/2 h-1/2 md:h-full relative flex items-center justify-center p-4">
-                        <div class="w-full h-full max-h-[60vh] max-w-md rounded-2xl overflow-hidden shadow-soft relative group">
-                             <img src="./images/Placeholder.png" alt="Sewing patterns and fabric" class="object-cover w-full h-full transition-transform duration-1000 group-hover:scale-105">
-                             <div class="absolute inset-0 bg-brand-pink/10 mix-blend-multiply"></div>
-                        </div>
-                    </div>
-                </div>
-                
-                 <!-- Slide 3 -->
-                <div class="carousel-slide bg-[#FDF9F1] flex flex-col md:flex-row items-center justify-center h-full w-full px-4 sm:px-8 md:px-16 lg:px-24">
-                    <div class="w-full md:w-1/2 flex flex-col justify-center items-start z-20 text-left pt-20 md:pt-0 pb-10 md:pb-0 pr-0 md:pr-12">
-                        <!-- <span class="text-brand-pink text-sm uppercase tracking-widest font-semibold mb-4 block">Handmade with Love</span> -->
-                        <h1 class="font-serif text-5xl md:text-6xl lg:text-7xl leading-tight text-brand-dark mb-6">The Art of<br><span class="italic text-brand-peach">Making</span></h1>
-                        <p class="text-base md:text-lg text-brand-dark/80 max-w-md mb-8 font-light">Join a community of makers bringing beautiful designs to life, stitch by stitch.</p>
-                        <div class="flex flex-wrap gap-4">
-                            <a href="#about" class="bg-brand-pink text-white px-8 py-3.5 rounded-full text-sm tracking-wide hover:bg-[#d43d6a] transition-colors">
-                                Our Story
-                            </a>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-1/2 h-1/2 md:h-full relative flex items-center justify-center p-4">
-                        <div class="w-full h-full max-h-[60vh] max-w-md rounded-full overflow-hidden shadow-soft relative group border-4 border-brand-white">
-                             <img src="./images/Placeholder.png" alt="Yarn and crafting tools" class="object-cover w-full h-full transition-transform duration-1000 group-hover:scale-105">
-                        </div>
-                    </div>
+            <!-- Continuous Marquee Track -->
+            <div class="absolute inset-0 flex items-center overflow-hidden z-0">
+                <div class="marquee-track flex gap-6 px-4 h-[70vh] md:h-[80vh]" id="hero-marquee-track">
+                    <!-- Dynamic images injected here via JS -->
                 </div>
             </div>
 
-            <!-- Carousel Controls -->
-            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 z-30">
-                <button class="carousel-dot w-2.5 h-2.5 rounded-full bg-brand-dark transition-all duration-300 w-8" aria-label="Go to slide 1"></button>
-                <button class="carousel-dot w-2.5 h-2.5 rounded-full bg-brand-dark/30 hover:bg-brand-dark/60 transition-all duration-300" aria-label="Go to slide 2"></button>
-                <button class="carousel-dot w-2.5 h-2.5 rounded-full bg-brand-dark/30 hover:bg-brand-dark/60 transition-all duration-300" aria-label="Go to slide 3"></button>
+            <!-- Absolute Gradient Overlay -->
+            <div
+                class="absolute inset-0 bg-gradient-to-t from-brand-pleasingPink via-brand-pleasingPink/50 to-transparent z-10 pointer-events-none">
+            </div>
+
+            <!-- Brand Messaging -->
+            <div class="relative z-20 text-center px-4 max-w-4xl gs-reveal flex flex-col items-center mt-12">
+                <span
+                    class="text-brand-dark/70 text-xs md:text-sm uppercase tracking-[0.4em] font-medium mb-8 block">Pattern
+                    Hub</span>
+                <h1
+                    class="font-serif text-6xl md:text-8xl lg:text-[7rem] leading-[0.95] text-brand-dark mb-8 tracking-tight">
+                    Discover<br><span class="italic font-light">Beautiful Patterns</span></h1>
+                <p
+                    class="text-base md:text-xl text-brand-dark/80 mb-12 font-light max-w-lg mx-auto tracking-wide leading-relaxed">
+                    Craft your next masterpiece with our curated digital patterns.</p>
+                <a href="#shop-categories"
+                    class="bg-brand-dark text-white px-12 py-5 rounded-sm text-xs tracking-[0.2em] uppercase font-light hover:bg-transparent hover:text-brand-dark border border-brand-dark transition-all duration-500 min-h-[44px]">
+                    Explore Collection
+                </a>
             </div>
         </section>
 
-        <!-- SHOP BY CATEGORY -->
-        <section id="shop-categories" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-brand-white">
-            <div class="text-center mb-16">
-                <h2 class="font-serif text-4xl md:text-5xl text-brand-dark mb-4">Shop by Category</h2>
-                <div class="w-16 h-0.5 bg-brand-pink mx-auto"></div>
+        <!-- CURATED COLLECTION -->
+        <section id="curated-collection" class="py-16 md:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-transparent">
+            <div class="text-center mb-12 md:mb-20">
+                <span
+                    class="text-brand-dark/70 text-xs md:text-sm uppercase tracking-[0.4em] font-medium mb-4 block">Handpicked</span>
+                <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl text-brand-dark mb-4 tracking-tight">Curated
+                    Collection</h2>
+                <div class="w-12 h-[1px] bg-brand-dark/30 mx-auto mt-6"></div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-                <!-- Crochet Category -->
-                <a href="shop.html?category=crochet" class="group block relative overflow-hidden rounded-3xl aspect-[4/5] md:aspect-square bg-brand-lightPeach img-hover-zoom cursor-pointer shadow-sm hover:shadow-soft transition-shadow duration-300">
-                    <img src="./images/Placeholder.png" alt="Crochet Category" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 mix-blend-multiply">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
-                    <div class="absolute bottom-0 left-0 w-full p-8 md:p-12 text-white">
-                        <h3 class="font-serif text-4xl md:text-5xl mb-2">Crochet</h3>
-                        <p class="text-sm md:text-base font-light mb-6 opacity-90">Discover our collection of modern crochet patterns.</p>
-                        <div class="inline-flex items-center space-x-2 text-sm uppercase tracking-wider font-medium group-hover:text-brand-pink transition-colors">
-                            <span>Explore</span>
-                            <svg class="w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Sewing Category -->
-                <a href="shop.html?category=sewing" class="group block relative overflow-hidden rounded-3xl aspect-[4/5] md:aspect-square bg-[#EAECE0] img-hover-zoom cursor-pointer shadow-sm hover:shadow-soft transition-shadow duration-300">
-                    <img src="./images/Placeholder.png" alt="Sewing Category" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 mix-blend-multiply">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
-                    <div class="absolute bottom-0 left-0 w-full p-8 md:p-12 text-white">
-                        <h3 class="font-serif text-4xl md:text-5xl mb-2">Sewing</h3>
-                        <p class="text-sm md:text-base font-light mb-6 opacity-90">Elegant apparel and accessory sewing patterns.</p>
-                        <div class="inline-flex items-center space-x-2 text-sm uppercase tracking-wider font-medium group-hover:text-brand-green transition-colors">
-                            <span>Explore</span>
-                            <svg class="w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                        </div>
-                    </div>
-                </a>
+            <div class="overflow-hidden relative w-full">
+                <div class="curated-track flex gap-6" id="curated-track">
+                    <!-- Curated products injected here via JS -->
+                </div>
             </div>
         </section>
 
         <!-- FEATURED PRODUCTS -->
-        <section class="py-24 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto bg-brand-white" id="featured-products-section">
+        <section class="py-16 md:py-24 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto bg-transparent"
+            id="featured-products-section">
             <div class="flex flex-col md:flex-row justify-between items-end mb-12 md:mb-16 gap-6">
                 <div>
                     <h2 class="font-serif text-3xl md:text-4xl text-brand-dark mb-3">Featured Designs</h2>
-                    <p class="text-brand-dark/70 font-light text-sm md:text-base max-w-md">A curated selection of our most loved digital patterns.</p>
+                    <p class="text-brand-dark/70 font-light text-sm md:text-base max-w-md">A curated selection of our
+                        most loved digital patterns.</p>
                 </div>
-                <a href="shop.html" class="hidden md:inline-flex items-center space-x-2 text-brand-dark hover:text-brand-pink transition-colors group">
+                <a href="shop.html"
+                    class="hidden md:inline-flex items-center space-x-2 text-brand-dark hover:text-brand-pink transition-colors group">
                     <span class="text-sm tracking-widest uppercase font-medium">View Full Catalog</span>
-                    <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                    <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                    </svg>
                 </a>
             </div>
 
@@ -342,18 +420,26 @@
             </div>
 
             <div class="mt-16 text-center md:hidden">
-                <a href="shop.html" class="inline-flex items-center space-x-2 text-brand-dark hover:text-brand-pink transition-colors group">
+                <a href="shop.html"
+                    class="inline-flex items-center space-x-2 text-brand-dark hover:text-brand-pink transition-colors group">
                     <span class="text-sm tracking-widest uppercase font-medium">View Full Catalog</span>
-                    <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                    <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                    </svg>
                 </a>
             </div>
         </section>
 
         <!-- ABOUT PATTERN HUB -->
-        <section id="about" class="py-24 bg-brand-yellow relative overflow-hidden">
+        <section id="about"
+            class="py-16 md:py-24 bg-white/20 backdrop-blur-md border-y border-brand-dark/5 relative overflow-hidden">
             <!-- Decorative circle -->
-            <div class="absolute top-0 right-0 w-64 h-64 bg-brand-pink rounded-full mix-blend-multiply filter blur-3xl opacity-20 transform translate-x-1/2 -translate-y-1/2"></div>
-            
+            <div
+                class="absolute top-0 right-0 w-64 h-64 bg-brand-pink rounded-full mix-blend-multiply filter blur-3xl opacity-20 transform translate-x-1/2 -translate-y-1/2">
+            </div>
+
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col lg:flex-row items-center gap-16">
                     <div class="w-full lg:w-1/2 relative">
@@ -361,31 +447,45 @@
                             <img src="./images/Placeholder.png" alt="Hands crafting" class="w-full h-full object-cover">
                         </div>
                         <!-- Accent element behind image -->
-                        <div class="absolute -bottom-6 -left-6 w-2/3 h-2/3 border-2 border-brand-pink rounded-3xl z-0 hidden md:block"></div>
+                        <div
+                            class="absolute -bottom-6 -left-6 w-2/3 h-2/3 border-2 border-brand-pink rounded-3xl z-0 hidden md:block">
+                        </div>
                     </div>
-                    
+
                     <div class="w-full lg:w-1/2 text-left">
-                        <span class="text-brand-pink text-sm uppercase tracking-widest font-semibold mb-4 block">Our Story</span>
-                        <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl text-brand-dark mb-6 leading-tight">A Destination for <br><span class="italic">Creative Makers</span></h2>
+                        <span class="text-brand-pink text-sm uppercase tracking-widest font-semibold mb-4 block">Our
+                            Story</span>
+                        <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl text-brand-dark mb-6 leading-tight">A
+                            Destination for <br><span class="italic">Creative Makers</span></h2>
                         <p class="text-brand-dark/80 font-light mb-6 text-base md:text-lg leading-relaxed">
-                            Pattern Hub was born from a simple belief: making things with your own hands is a beautiful, grounding experience. We create digital patterns that are clear, modern, and inspiring.
+                            Pattern Hub was born from a simple belief: making things with your own hands is a beautiful,
+                            grounding experience. We create digital patterns that are clear, modern, and inspiring.
                         </p>
                         <p class="text-brand-dark/80 font-light mb-10 text-base md:text-lg leading-relaxed">
-                            Based in Pakistan and serving creators worldwide, we bridge the gap between traditional craft and contemporary aesthetics. Every pattern is carefully designed to ensure your creative journey is just as beautiful as the final piece.
+                            Based in Pakistan and serving creators worldwide, we bridge the gap between traditional
+                            craft and contemporary aesthetics. Every pattern is carefully designed to ensure your
+                            creative journey is just as beautiful as the final piece.
                         </p>
                         <div class="flex items-center space-x-6">
                             <!-- Circular Text Badge using SVG -->
-                            <div class="w-24 h-24 relative animate-spin-slow origin-center" style="animation: spin 15s linear infinite;">
+                            <div class="w-24 h-24 relative animate-spin-slow origin-center"
+                                style="animation: spin 15s linear infinite;">
                                 <svg viewBox="0 0 100 100" class="w-full h-full text-brand-pink fill-current">
-                                    <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none" />
-                                    <text font-size="11" font-family="'Inter', sans-serif" font-weight="600" letter-spacing="2">
+                                    <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
+                                        fill="none" />
+                                    <text font-size="11" font-family="'Inter', sans-serif" font-weight="600"
+                                        letter-spacing="2">
                                         <textPath href="#circlePath">
-                                            MADE WITH CARE • DESIGNED FOR YOU • 
+                                            MADE WITH CARE • DESIGNED FOR YOU •
                                         </textPath>
                                     </text>
                                 </svg>
                                 <style>
-                                    @keyframes spin { 100% { transform: rotate(360deg); } }
+                                    @keyframes spin {
+                                        100% {
+                                            transform: rotate(360deg);
+                                        }
+                                    }
                                 </style>
                             </div>
                         </div>
@@ -395,92 +495,219 @@
         </section>
 
         <!-- WHY CHOOSE US -->
-        <section class="py-24 bg-brand-white px-4 sm:px-6 lg:px-8">
+        <section class="py-16 md:py-24 bg-transparent px-4 sm:px-6 lg:px-8">
             <div class="max-w-7xl mx-auto">
-                <div class="text-center mb-16">
+                <div class="text-center mb-12 md:mb-16">
                     <h2 class="font-serif text-3xl md:text-4xl text-brand-dark mb-4">The Pattern Hub Difference</h2>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 lg:gap-16">
-                    <!-- Feature 1 -->
-                    <div class="flex flex-col items-center text-center group">
-                        <div class="w-20 h-20 rounded-full bg-brand-lightPeach flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                            <svg class="w-8 h-8 text-brand-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        </div>
-                        <h3 class="font-serif text-xl md:text-2xl mb-3">Beautifully Designed</h3>
-                        <p class="text-brand-dark/70 font-light text-sm md:text-base">Modern, aesthetic designs that result in pieces you'll be proud to wear or gift.</p>
-                    </div>
+                <div class="overflow-hidden md:overflow-visible">
+                    <style>
+                        @media (max-width: 767px) {
+                            .marquee-mobile-track {
+                                animation: marqueeMobile 15s linear infinite;
+                            }
 
-                    <!-- Feature 2 -->
-                    <div class="flex flex-col items-center text-center group">
-                        <div class="w-20 h-20 rounded-full bg-[#EAECE0] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                            <svg class="w-8 h-8 text-brand-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                        </div>
-                        <h3 class="font-serif text-xl md:text-2xl mb-3">Clear Instructions</h3>
-                        <p class="text-brand-dark/70 font-light text-sm md:text-base">Step-by-step guidance formatted for easy reading on tablets, phones, or print.</p>
-                    </div>
+                            @keyframes marqueeMobile {
+                                0% {
+                                    transform: translateX(0);
+                                }
 
-                    <!-- Feature 3 -->
-                    <div class="flex flex-col items-center text-center group">
-                        <div class="w-20 h-20 rounded-full bg-[#FDF9F1] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                            <svg class="w-8 h-8 text-brand-peach" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                100% {
+                                    transform: translateX(calc(-50% - 12px));
+                                }
+                            }
+                        }
+                    </style>
+                    <div
+                        class="flex md:grid md:grid-cols-3 gap-6 md:gap-8 lg:gap-16 marquee-mobile-track w-max md:w-auto">
+
+                        <div class="flex gap-6 md:contents">
+                            <!-- Feature 1 -->
+                            <div
+                                class="flex flex-col items-center text-center group border border-brand-dark/10 rounded-sm p-8 bg-white/20 backdrop-blur-sm md:border-none md:bg-transparent md:p-0 w-[75vw] md:w-auto flex-shrink-0">
+                                <div
+                                    class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-brand-lightPeach flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                                    <svg class="w-6 h-6 md:w-8 md:h-8 text-brand-pink" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <h3 class="font-serif text-xl md:text-2xl mb-3 text-brand-dark">Beautifully Designed
+                                </h3>
+                                <p class="text-brand-dark/70 font-light text-sm md:text-base">Modern, aesthetic designs
+                                    that result in pieces you'll be proud to wear or gift.</p>
+                            </div>
+
+                            <!-- Feature 2 -->
+                            <div
+                                class="flex flex-col items-center text-center group border border-brand-dark/10 rounded-sm p-8 bg-white/20 backdrop-blur-sm md:border-none md:bg-transparent md:p-0 w-[75vw] md:w-auto flex-shrink-0">
+                                <div
+                                    class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#EAECE0] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                                    <svg class="w-6 h-6 md:w-8 md:h-8 text-brand-green" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <h3 class="font-serif text-xl md:text-2xl mb-3 text-brand-dark">Clear Instructions</h3>
+                                <p class="text-brand-dark/70 font-light text-sm md:text-base">Step-by-step guidance
+                                    formatted for easy reading on tablets, phones, or print.</p>
+                            </div>
+
+                            <!-- Feature 3 -->
+                            <div
+                                class="flex flex-col items-center text-center group border border-brand-dark/10 rounded-sm p-8 bg-white/20 backdrop-blur-sm md:border-none md:bg-transparent md:p-0 w-[75vw] md:w-auto flex-shrink-0">
+                                <div
+                                    class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#FDF9F1] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                                    <svg class="w-6 h-6 md:w-8 md:h-8 text-brand-dark/70" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="font-serif text-xl md:text-2xl mb-3 text-brand-dark">Instant Access</h3>
+                                <p class="text-brand-dark/70 font-light text-sm md:text-base">Digital downloads mean you
+                                    can start creating your next project immediately.</p>
+                            </div>
                         </div>
-                        <h3 class="font-serif text-xl md:text-2xl mb-3">Instant Access</h3>
-                        <p class="text-brand-dark/70 font-light text-sm md:text-base">Digital downloads mean you can start creating your next project immediately.</p>
+
+                        <!-- Duplicate for Marquee (Hidden on Desktop) -->
+                        <div class="flex gap-6 md:hidden">
+                            <!-- Feature 1 -->
+                            <div class="flex flex-col items-center text-center group border border-brand-dark/10 rounded-sm p-8 bg-white/20 backdrop-blur-sm w-[75vw] flex-shrink-0"
+                                aria-hidden="true">
+                                <div
+                                    class="w-16 h-16 rounded-full bg-brand-lightPeach flex items-center justify-center mb-6">
+                                    <svg class="w-6 h-6 text-brand-pink" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <h3 class="font-serif text-xl mb-3 text-brand-dark">Beautifully Designed</h3>
+                                <p class="text-brand-dark/70 font-light text-sm">Modern, aesthetic designs that result
+                                    in pieces you'll be proud to wear or gift.</p>
+                            </div>
+
+                            <!-- Feature 2 -->
+                            <div class="flex flex-col items-center text-center group border border-brand-dark/10 rounded-sm p-8 bg-white/20 backdrop-blur-sm w-[75vw] flex-shrink-0"
+                                aria-hidden="true">
+                                <div class="w-16 h-16 rounded-full bg-[#EAECE0] flex items-center justify-center mb-6">
+                                    <svg class="w-6 h-6 text-brand-green" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <h3 class="font-serif text-xl mb-3 text-brand-dark">Clear Instructions</h3>
+                                <p class="text-brand-dark/70 font-light text-sm">Step-by-step guidance formatted for
+                                    easy reading on tablets, phones, or print.</p>
+                            </div>
+
+                            <!-- Feature 3 -->
+                            <div class="flex flex-col items-center text-center group border border-brand-dark/10 rounded-sm p-8 bg-white/20 backdrop-blur-sm w-[75vw] flex-shrink-0"
+                                aria-hidden="true">
+                                <div class="w-16 h-16 rounded-full bg-[#FDF9F1] flex items-center justify-center mb-6">
+                                    <svg class="w-6 h-6 text-brand-dark/70" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="font-serif text-xl mb-3 text-brand-dark">Instant Access</h3>
+                                <p class="text-brand-dark/70 font-light text-sm">Digital downloads mean you can start
+                                    creating your next project immediately.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- HOW IT WORKS -->
-        <section class="py-24 bg-brand-lightPeach/30 border-y border-brand-pink/10">
+        <section class="py-16 md:py-24 bg-white/30 backdrop-blur-lg border-y border-brand-dark/5">
             <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-16">
+                <div class="text-center mb-12 md:mb-16">
                     <h2 class="font-serif text-3xl md:text-4xl text-brand-dark">How It Works</h2>
                 </div>
 
-                <div class="flex flex-col md:flex-row justify-between items-center relative space-y-12 md:space-y-0">
-                    <!-- Connecting line (Desktop) -->
-                    <div class="hidden md:block absolute top-1/2 left-[10%] right-[10%] h-[1px] bg-brand-pink/20 -translate-y-1/2 z-0"></div>
-
-                    <!-- Step 1 -->
-                    <div class="relative z-10 flex flex-col items-center bg-transparent w-full md:w-1/3">
-                        <div class="w-12 h-12 rounded-full bg-brand-white border border-brand-pink/30 flex items-center justify-center font-serif text-xl text-brand-pink mb-4">01</div>
-                        <h3 class="font-medium text-lg mb-2">Choose Pattern</h3>
-                        <p class="text-center text-sm font-light text-brand-dark/70 max-w-[200px]">Browse our curated collection of sewing and crochet designs.</p>
+                <div class="relative w-full">
+                    <!-- Connecting line (Mobile + Desktop) -->
+                    <div
+                        class="absolute top-6 md:top-1/2 left-0 md:left-[10%] right-0 md:right-[10%] h-[1px] bg-brand-dark/10 md:-translate-y-1/2 z-0">
                     </div>
 
-                    <!-- Step 2 -->
-                    <div class="relative z-10 flex flex-col items-center bg-transparent w-full md:w-1/3">
-                        <div class="w-12 h-12 rounded-full bg-brand-white border border-brand-pink/30 flex items-center justify-center font-serif text-xl text-brand-pink mb-4">02</div>
-                        <h3 class="font-medium text-lg mb-2">Purchase & Download</h3>
-                        <p class="text-center text-sm font-light text-brand-dark/70 max-w-[200px]">Checkout securely and receive your digital file instantly.</p>
-                    </div>
+                    <div
+                        class="flex md:flex-row justify-between items-start md:items-center relative z-10 overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-6 md:gap-0 pb-4 md:pb-0">
 
-                    <!-- Step 3 -->
-                    <div class="relative z-10 flex flex-col items-center bg-transparent w-full md:w-1/3">
-                        <div class="w-12 h-12 rounded-full bg-brand-white border border-brand-pink/30 flex items-center justify-center font-serif text-xl text-brand-pink mb-4">03</div>
-                        <h3 class="font-medium text-lg mb-2">Start Creating</h3>
-                        <p class="text-center text-sm font-light text-brand-dark/70 max-w-[200px]">Follow the instructions and bring your beautiful design to life.</p>
+                        <!-- Step 1 -->
+                        <div
+                            class="flex flex-col items-center bg-transparent w-[75vw] flex-shrink-0 snap-center md:w-1/3">
+                            <div
+                                class="w-12 h-12 rounded-full bg-brand-white border border-brand-pink/30 flex items-center justify-center font-serif text-xl text-brand-pink mb-4 relative bg-[#F4E1E6]">
+                                01</div>
+                            <h3 class="font-medium text-lg mb-2 text-brand-dark">Choose Pattern</h3>
+                            <p class="text-center text-sm font-light text-brand-dark/70 max-w-[200px]">Browse our
+                                curated collection of sewing and crochet designs.</p>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div
+                            class="flex flex-col items-center bg-transparent w-[75vw] flex-shrink-0 snap-center md:w-1/3">
+                            <div
+                                class="w-12 h-12 rounded-full bg-brand-white border border-brand-pink/30 flex items-center justify-center font-serif text-xl text-brand-pink mb-4 relative bg-[#F4E1E6]">
+                                02</div>
+                            <h3 class="font-medium text-lg mb-2 text-brand-dark">Purchase & Download</h3>
+                            <p class="text-center text-sm font-light text-brand-dark/70 max-w-[200px]">Checkout securely
+                                and receive your digital file instantly.</p>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div
+                            class="flex flex-col items-center bg-transparent w-[75vw] flex-shrink-0 snap-center md:w-1/3">
+                            <div
+                                class="w-12 h-12 rounded-full bg-brand-white border border-brand-pink/30 flex items-center justify-center font-serif text-xl text-brand-pink mb-4 relative bg-[#F4E1E6]">
+                                03</div>
+                            <h3 class="font-medium text-lg mb-2 text-brand-dark">Start Creating</h3>
+                            <p class="text-center text-sm font-light text-brand-dark/70 max-w-[200px]">Follow the
+                                instructions and bring your beautiful design to life.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- CUSTOM ORDER -->
-        <section id="custom-order" class="py-24 px-4 sm:px-6 lg:px-8 bg-brand-white">
-            <div class="max-w-4xl mx-auto text-center bg-[#FDF9F1] rounded-[2rem] p-8 md:p-16 shadow-soft relative overflow-hidden">
+        <section id="custom-order" class="py-24 px-4 sm:px-6 lg:px-8 bg-transparent">
+            <div
+                class="max-w-4xl mx-auto text-center bg-white/40 backdrop-blur-xl border border-white/60 rounded-[2rem] p-8 md:p-16 shadow-soft relative overflow-hidden">
                 <!-- Decorative elements -->
-                <svg class="absolute top-0 left-0 w-32 h-32 text-brand-pink/10 transform -translate-x-1/2 -translate-y-1/2" fill="currentColor" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"/></svg>
-                <svg class="absolute bottom-0 right-0 w-48 h-48 text-brand-green/10 transform translate-x-1/3 translate-y-1/3" fill="currentColor" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"/></svg>
-                
+                <svg class="absolute top-0 left-0 w-32 h-32 text-brand-pink/10 transform -translate-x-1/2 -translate-y-1/2"
+                    fill="currentColor" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="50" />
+                </svg>
+                <svg class="absolute bottom-0 right-0 w-48 h-48 text-brand-green/10 transform translate-x-1/3 translate-y-1/3"
+                    fill="currentColor" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="50" />
+                </svg>
+
                 <div class="relative z-10">
-                    <span class="text-brand-green text-sm uppercase tracking-widest font-semibold mb-4 block">Bespoke Design</span>
-                    <h2 class="font-serif text-3xl md:text-5xl text-brand-dark mb-6">Have Something Special<br><span class="italic">in Mind?</span></h2>
+                    <span class="text-brand-green text-sm uppercase tracking-widest font-semibold mb-4 block">Bespoke
+                        Design</span>
+                    <h2 class="font-serif text-3xl md:text-5xl text-brand-dark mb-6">Have Something Special<br><span
+                            class="italic">in Mind?</span></h2>
                     <p class="text-brand-dark/70 font-light mb-8 max-w-lg mx-auto text-sm md:text-base">
-                        Looking for a specific pattern you can't find? We take custom requests to design unique crochet or sewing patterns just for you.
+                        Looking for a specific pattern you can't find? We take custom requests to design unique crochet
+                        or sewing patterns just for you.
                     </p>
-                    <a href="./custom_order .html" class="inline-block bg-brand-dark text-white px-8 py-3.5 rounded-full text-sm tracking-wide hover:bg-black transition-colors">
+                    <a href="./custom_order .html"
+                        class="inline-block bg-brand-dark text-white px-8 py-3.5 rounded-full text-sm tracking-wide hover:bg-black transition-colors">
                         Request Custom Order
                     </a>
                 </div>
@@ -494,22 +721,48 @@
                     <h2 class="font-serif text-3xl md:text-4xl text-brand-dark">From Our Makers</h2>
                 </div>
 
-                <div class="flex overflow-x-auto pb-8 snap-x snap-mandatory hide-scrollbar gap-6 md:grid md:grid-cols-3 md:gap-8 md:overflow-visible" id="reviews-container">
+                <div class="flex overflow-x-auto pb-8 snap-x snap-mandatory hide-scrollbar gap-6 md:grid md:grid-cols-3 md:gap-8 md:overflow-visible"
+                    id="reviews-container">
                     <!-- Structure designed for easy JS replacement later -->
-                    
+
                     <!-- Review 1 -->
-                    <div class="min-w-[85vw] sm:min-w-[300px] md:min-w-0 snap-center bg-white p-8 rounded-2xl shadow-sm border border-brand-pink/5">
+                    <div
+                        class="min-w-[85vw] sm:min-w-[300px] md:min-w-0 snap-center bg-white p-8 rounded-2xl shadow-sm border border-brand-pink/5">
                         <div class="flex text-brand-pink mb-4 space-x-1">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                </path>
+                            </svg>
                             <!-- 5 stars -->
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                </path>
+                            </svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                </path>
+                            </svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                </path>
+                            </svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                </path>
+                            </svg>
                         </div>
-                        <p class="text-brand-dark/80 font-light italic mb-6 leading-relaxed">"The pattern was incredibly easy to follow. I made a beautiful summer top and the sizing was perfect. Will definitely buy again!"</p>
+                        <p class="text-brand-dark/80 font-light italic mb-6 leading-relaxed">"The pattern was incredibly
+                            easy to follow. I made a beautiful summer top and the sizing was perfect. Will definitely
+                            buy again!"</p>
                         <div class="flex items-center">
-                            <div class="w-10 h-10 rounded-full bg-brand-lightPeach flex items-center justify-center text-brand-pink font-serif font-medium mr-3">S</div>
+                            <div
+                                class="w-10 h-10 rounded-full bg-brand-lightPeach flex items-center justify-center text-brand-pink font-serif font-medium mr-3">
+                                S</div>
                             <div>
                                 <h4 class="font-medium text-sm">Sarah M.</h4>
                                 <span class="text-xs text-brand-dark/50">Verified Maker</span>
@@ -518,18 +771,43 @@
                     </div>
 
                     <!-- Review 2 -->
-                    <div class="min-w-[85vw] sm:min-w-[300px] md:min-w-0 snap-center bg-white p-8 rounded-2xl shadow-sm border border-brand-pink/5">
+                    <div
+                        class="min-w-[85vw] sm:min-w-[300px] md:min-w-0 snap-center bg-white p-8 rounded-2xl shadow-sm border border-brand-pink/5">
                         <div class="flex text-brand-pink mb-4 space-x-1">
                             <!-- 5 stars SVG omitted for brevity, imagine them here -->
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                </path>
+                            </svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                </path>
+                            </svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                </path>
+                            </svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                </path>
+                            </svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                </path>
+                            </svg>
                         </div>
-                        <p class="text-brand-dark/80 font-light italic mb-6 leading-relaxed">"Such elegant designs! I love that I get instant access to the PDF. The diagrams for the sewing pattern were super clear."</p>
+                        <p class="text-brand-dark/80 font-light italic mb-6 leading-relaxed">"Such elegant designs! I
+                            love that I get instant access to the PDF. The diagrams for the sewing pattern were super
+                            clear."</p>
                         <div class="flex items-center">
-                            <div class="w-10 h-10 rounded-full bg-[#EAECE0] flex items-center justify-center text-brand-green font-serif font-medium mr-3">A</div>
+                            <div
+                                class="w-10 h-10 rounded-full bg-[#EAECE0] flex items-center justify-center text-brand-green font-serif font-medium mr-3">
+                                A</div>
                             <div>
                                 <h4 class="font-medium text-sm">Aisha K.</h4>
                                 <span class="text-xs text-brand-dark/50">Verified Maker</span>
@@ -537,19 +815,43 @@
                         </div>
                     </div>
 
-                     <!-- Review 3 -->
-                    <div class="min-w-[85vw] sm:min-w-[300px] md:min-w-0 snap-center bg-white p-8 rounded-2xl shadow-sm border border-brand-pink/5">
+                    <!-- Review 3 -->
+                    <div
+                        class="min-w-[85vw] sm:min-w-[300px] md:min-w-0 snap-center bg-white p-8 rounded-2xl shadow-sm border border-brand-pink/5">
                         <div class="flex text-brand-pink mb-4 space-x-1">
                             <!-- 5 stars -->
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                </path>
+                            </svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                </path>
+                            </svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                </path>
+                            </svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                </path>
+                            </svg>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                </path>
+                            </svg>
                         </div>
-                        <p class="text-brand-dark/80 font-light italic mb-6 leading-relaxed">"As a beginner, I found the crochet pattern very accessible. The aesthetic of Pattern Hub is just so inspiring."</p>
+                        <p class="text-brand-dark/80 font-light italic mb-6 leading-relaxed">"As a beginner, I found the
+                            crochet pattern very accessible. The aesthetic of Pattern Hub is just so inspiring."</p>
                         <div class="flex items-center">
-                            <div class="w-10 h-10 rounded-full bg-brand-white border border-brand-dark/10 flex items-center justify-center text-brand-dark font-serif font-medium mr-3">E</div>
+                            <div
+                                class="w-10 h-10 rounded-full bg-brand-white border border-brand-dark/10 flex items-center justify-center text-brand-dark font-serif font-medium mr-3">
+                                E</div>
                             <div>
                                 <h4 class="font-medium text-sm">Emma L.</h4>
                                 <span class="text-xs text-brand-dark/50">Verified Maker</span>
@@ -569,46 +871,65 @@
         <!-- FAQ -->
         <section id="faq" class="py-24 px-4 sm:px-6 lg:px-8 bg-brand-white max-w-4xl mx-auto">
             <div class="text-center mb-12">
-                <span class="text-brand-pink text-sm uppercase tracking-widest font-semibold mb-4 block">Help & Support</span>
+                <span class="text-brand-pink text-sm uppercase tracking-widest font-semibold mb-4 block">Help &
+                    Support</span>
                 <h2 class="font-serif text-3xl md:text-4xl text-brand-dark mb-4">Frequently Asked Questions</h2>
             </div>
 
             <div class="space-y-4" id="faq-accordion">
                 <!-- FAQ Item 1 -->
                 <div class="border-b border-brand-dark/10 pb-4">
-                    <button class="faq-btn w-full flex justify-between items-center py-4 text-left focus:outline-none" aria-expanded="false">
+                    <button class="faq-btn w-full flex justify-between items-center py-4 text-left focus:outline-none"
+                        aria-expanded="false">
                         <span class="font-serif text-xl text-brand-dark">How do I receive my digital pattern?</span>
-                        <svg class="w-5 h-5 text-brand-pink transform transition-transform duration-300 faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9l-7 7-7-7"></path></svg>
+                        <svg class="w-5 h-5 text-brand-pink transform transition-transform duration-300 faq-icon"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
                     </button>
                     <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
                         <p class="text-brand-dark/70 font-light pb-4 text-sm md:text-base pr-8">
-                            Once your purchase is complete, you will receive an immediate download link on the confirmation page. A copy of the PDF file will also be sent to your provided email address.
+                            Once your purchase is complete, you will receive an immediate download link on the
+                            confirmation page. A copy of the PDF file will also be sent to your provided email address.
                         </p>
                     </div>
                 </div>
 
                 <!-- FAQ Item 2 -->
                 <div class="border-b border-brand-dark/10 pb-4">
-                    <button class="faq-btn w-full flex justify-between items-center py-4 text-left focus:outline-none" aria-expanded="false">
-                        <span class="font-serif text-xl text-brand-dark">Are these patterns suitable for beginners?</span>
-                        <svg class="w-5 h-5 text-brand-pink transform transition-transform duration-300 faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9l-7 7-7-7"></path></svg>
+                    <button class="faq-btn w-full flex justify-between items-center py-4 text-left focus:outline-none"
+                        aria-expanded="false">
+                        <span class="font-serif text-xl text-brand-dark">Are these patterns suitable for
+                            beginners?</span>
+                        <svg class="w-5 h-5 text-brand-pink transform transition-transform duration-300 faq-icon"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
                     </button>
                     <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
                         <p class="text-brand-dark/70 font-light pb-4 text-sm md:text-base pr-8">
-                            We offer patterns for various skill levels. Each product description clearly states whether it is designed for beginners, intermediate, or advanced makers.
+                            We offer patterns for various skill levels. Each product description clearly states whether
+                            it is designed for beginners, intermediate, or advanced makers.
                         </p>
                     </div>
                 </div>
 
                 <!-- FAQ Item 3 -->
                 <div class="border-b border-brand-dark/10 pb-4">
-                    <button class="faq-btn w-full flex justify-between items-center py-4 text-left focus:outline-none" aria-expanded="false">
+                    <button class="faq-btn w-full flex justify-between items-center py-4 text-left focus:outline-none"
+                        aria-expanded="false">
                         <span class="font-serif text-xl text-brand-dark">What format do the patterns come in?</span>
-                        <svg class="w-5 h-5 text-brand-pink transform transition-transform duration-300 faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9l-7 7-7-7"></path></svg>
+                        <svg class="w-5 h-5 text-brand-pink transform transition-transform duration-300 faq-icon"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
                     </button>
                     <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
                         <p class="text-brand-dark/70 font-light pb-4 text-sm md:text-base pr-8">
-                            All patterns are provided as high-quality PDF files. Sewing patterns include formats suitable for both home printing (A4/US Letter) and A0 format for copy shops.
+                            All patterns are provided as high-quality PDF files suitable for home printing.
                         </p>
                     </div>
                 </div>
@@ -617,16 +938,19 @@
 
         <!-- FINAL CTA -->
         <section class="py-24 bg-brand-pink text-white text-center relative overflow-hidden">
-             <!-- Background pattern subtle -->
-             <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 30px 30px;"></div>
-             
-             <div class="relative z-10 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
-                 <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl mb-6">Ready to Make Something Beautiful?</h2>
-                 <p class="font-light text-white/80 mb-10 text-base md:text-lg">Join thousands of makers bringing our curated patterns to life.</p>
-                 <a href="#shop-categories" class="inline-block bg-white text-brand-pink px-10 py-4 rounded-full text-sm tracking-widest uppercase font-medium hover:bg-brand-lightPeach transition-colors shadow-lg">
-                     Explore Collection
-                 </a>
-             </div>
+            <!-- Background pattern subtle -->
+            <div class="absolute inset-0 opacity-10"
+                style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 30px 30px;"></div>
+
+            <div class="relative z-10 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
+                <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl mb-6">Ready to Make Something Beautiful?</h2>
+                <p class="font-light text-white/80 mb-10 text-base md:text-lg">Join thousands of makers bringing our
+                    curated patterns to life.</p>
+                <a href="#shop-categories"
+                    class="inline-block bg-white text-brand-pink px-10 py-4 rounded-full text-sm tracking-widest uppercase font-medium hover:bg-brand-lightPeach transition-colors shadow-lg">
+                    Explore Collection
+                </a>
+            </div>
         </section>
     </main>
 
@@ -638,18 +962,24 @@
                 <div class="lg:col-span-2">
                     <a href="#" class="font-serif text-3xl text-brand-pink mb-6 block">Pattern Hub</a>
                     <p class="text-white/60 font-light max-w-sm mb-6 text-sm leading-relaxed">
-                        A premium destination for digital crochet and sewing patterns. We believe in the beauty of handmade and the joy of creative expression.
+                        A premium destination for digital crochet and sewing patterns. We believe in the beauty of
+                        handmade and the joy of creative expression.
                     </p>
                 </div>
-                
+
                 <!-- Links -->
                 <div>
                     <h4 class="font-medium tracking-widest text-xs uppercase text-white/40 mb-6">Explore</h4>
                     <ul class="space-y-4">
-                        <li><a href="#" class="text-white/80 hover:text-brand-pink transition-colors text-sm font-light">Home</a></li>
-                        <li><a href="shop.html?category=crochet" class="text-white/80 hover:text-brand-pink transition-colors text-sm font-light">Crochet Patterns</a></li>
-                        <li><a href="shop.html?category=sewing" class="text-white/80 hover:text-brand-pink transition-colors text-sm font-light">Sewing Patterns</a></li>
-                        <li><a href="./custom_order .html" class="text-white/80 hover:text-brand-pink transition-colors text-sm font-light">Custom Order</a></li>
+                        <li><a href="#"
+                                class="text-white/80 hover:text-brand-pink transition-colors text-sm font-light">Home</a>
+                        </li>
+                        <li><a href="shop.html?category=crochet"
+                                class="text-white/80 hover:text-brand-pink transition-colors text-sm font-light">Crochet
+                                Patterns</a></li>
+                        <li><a href="./custom_order .html"
+                                class="text-white/80 hover:text-brand-pink transition-colors text-sm font-light">Custom
+                                Order</a></li>
                     </ul>
                 </div>
 
@@ -657,9 +987,15 @@
                 <div>
                     <h4 class="font-medium tracking-widest text-xs uppercase text-white/40 mb-6">Information</h4>
                     <ul class="space-y-4">
-                        <li><a href="#about" class="text-white/80 hover:text-brand-pink transition-colors text-sm font-light">About Us</a></li>
-                        <li><a href="#faq" class="text-white/80 hover:text-brand-pink transition-colors text-sm font-light">FAQ</a></li>
-                        <li><a href="#" class="text-white/80 hover:text-brand-pink transition-colors text-sm font-light">Contact</a></li>
+                        <li><a href="#about"
+                                class="text-white/80 hover:text-brand-pink transition-colors text-sm font-light">About
+                                Us</a></li>
+                        <li><a href="#faq"
+                                class="text-white/80 hover:text-brand-pink transition-colors text-sm font-light">FAQ</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-white/80 hover:text-brand-pink transition-colors text-sm font-light">Contact</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -675,126 +1011,127 @@
     <!-- JAVASCRIPT APP LOGIC -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            
-            // --- 1. PRODUCT DATA (Centralized & Editable) ---
-            const featuredProducts = [
-                {
-                    id: "prod_c01",
-                    name: "Summer Breeze Top",
-                    category: "Crochet",
-                    price: 12.00,
-                    image: "https://images.unsplash.com/photo-1601633519894-35dc51272718?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                    isNew: true
-                },
-                {
-                    id: "prod_s01",
-                    name: "Linen Wrap Dress",
-                    category: "Sewing",
-                    price: 15.00,
-                    image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                    isNew: false
-                },
-                {
-                    id: "prod_c02",
-                    name: "Chunky Cozy Blanket",
-                    category: "Crochet",
-                    price: 10.00,
-                    image: "https://images.unsplash.com/photo-1584992236310-6edddc08acff?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                    isNew: false
-                },
-                {
-                    id: "prod_s02",
-                    name: "Classic Tote Bag",
-                    category: "Sewing",
-                    price: 8.00,
-                    image: "https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                    isNew: false
-                },
-                {
-                    id: "prod_c03",
-                    name: "Boho Wall Hanging",
-                    category: "Crochet",
-                    price: 9.00,
-                    image: "https://images.unsplash.com/photo-1528359487770-9856fdbba1d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                    isNew: true
-                },
-                {
-                    id: "prod_s03",
-                    name: "Everyday Culottes",
-                    category: "Sewing",
-                    price: 14.00,
-                    image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                    isNew: false
-                },
-                {
-                    id: "prod_c04",
-                    name: "Daisy Bucket Hat",
-                    category: "Crochet",
-                    price: 7.00,
-                    image: "https://images.unsplash.com/photo-1589254065878-42c9da997008?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                    isNew: false
-                },
-                {
-                    id: "prod_s04",
-                    name: "Silk Camisole",
-                    category: "Sewing",
-                    price: 11.00,
-                    image: "https://images.unsplash.com/photo-1520006403909-838d6b92c22e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                    isNew: false
-                },
-                {
-                    id: "prod_c05",
-                    name: "Vintage Cardigan",
-                    category: "Crochet",
-                    price: 16.00,
-                    image: "https://images.unsplash.com/photo-1574291196307-e837be704e67?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                    isNew: false
-                },
-                {
-                    id: "prod_s05",
-                    name: "High-Waist Trousers",
-                    category: "Sewing",
-                    price: 18.00,
-                    image: "https://images.unsplash.com/photo-1584370848010-d7fe6bc767ec?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                    isNew: true
-                }
-            ];
 
-            // --- 2. RENDER FEATURED PRODUCTS ---
+            // --- 1. FETCH AND RENDER FEATURED PRODUCTS ---
             const productsGrid = document.getElementById('products-grid');
-            
-            function renderProducts() {
+
+            async function initializeData() {
+                try {
+                    const response = await fetch('data.json');
+                    const allProducts = await response.json();
+                    
+                    renderFeaturedProducts(allProducts);
+                    renderCuratedCollection(allProducts);
+                    renderHeroMarquee(allProducts);
+                } catch (error) {
+                    console.error('Error loading data:', error);
+                    renderHeroMarqueeFallback();
+                }
+            }
+
+            function renderCuratedCollection(allProducts) {
+                const curatedTrack = document.getElementById('curated-track');
+                if (!curatedTrack) return;
+
+                // Shuffle array and take 4 to 6 random products
+                const shuffled = [...allProducts].sort(() => 0.5 - Math.random());
+                const numProducts = Math.floor(Math.random() * 3) + 4; // 4, 5, or 6
+                const selectedProducts = shuffled.slice(0, numProducts);
+
+                let htmlContent = '';
+                selectedProducts.forEach(product => {
+                    const imageUrl = (product.images && product.images.length > 0) ? product.images[0] : './images/Placeholder.png';
+                    htmlContent += `
+                    <div class="group cursor-pointer flex-shrink-0 w-[280px] md:w-[350px]">
+                        <a href="product.html?id=${product.id}" class="block w-full aspect-[4/5] overflow-hidden rounded-sm relative bg-white/20">
+                            <img src="${imageUrl}" alt="${product.name}" onerror="this.onerror=null; this.src='./images/Placeholder.png';" class="w-full h-full object-cover opacity-90 mix-blend-multiply transition-transform duration-700 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            <div class="absolute bottom-6 left-6 bg-white/60 backdrop-blur-md px-5 py-2.5 rounded-sm border border-brand-dark/10 shadow-soft max-w-[85%]">
+                                <span class="font-serif text-xl md:text-2xl text-brand-dark block truncate" title="${product.name}">${product.name}</span>
+                                <span class="text-[10px] uppercase tracking-[0.2em] font-medium text-brand-dark/70 mt-1 block">View Pattern</span>
+                            </div>
+                        </a>
+                    </div>`;
+                });
+
+                // Duplicate the set for seamless looping
+                curatedTrack.innerHTML = htmlContent + htmlContent;
+            }
+
+            function renderFeaturedProducts(allProducts) {
+                // Take the first 4 products for the featured section
+                const featuredProducts = allProducts.slice(0, 4);
+
                 featuredProducts.forEach(product => {
-                    const categoryColor = product.category === 'Crochet' ? 'text-brand-pink' : 'text-brand-green';
-                    
-                    const card = document.createElement('div');
-                    card.className = 'group flex flex-col';
-                    
+                    const categoryColor = 'text-brand-pink'; // All are Crochet now
+
+                    const card = document.createElement('a');
+                    card.href = `product.html?id=${product.id}`;
+                    card.className = 'group flex flex-col block cursor-pointer';
+
+                    // Use first image if available, else placeholder
+                    const imageUrl = (product.images && product.images.length > 0) ? product.images[0] : './images/Placeholder.png';
+
                     card.innerHTML = `
-                        <div class="relative aspect-[3/4] mb-4 overflow-hidden rounded-2xl bg-brand-lightPeach/30">
-                            ${product.isNew ? '<div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-brand-dark text-[10px] font-medium tracking-widest uppercase px-2 py-1 rounded z-10">New</div>' : ''}
-                            <img src="${product.image}" alt="${product.name}" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="relative aspect-[3/4] mb-4 overflow-hidden rounded-md bg-white/20">
+                            <img src="${imageUrl}" alt="${product.name}" onerror="this.onerror=null; this.src='./images/Placeholder.png';" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply">
                             <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                             
                             <!-- Mobile-friendly Add button overlay -->
                             <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-11/12 opacity-100 md:opacity-0 md:translate-y-4 md:group-hover:opacity-100 md:group-hover:translate-y-0 transition-all duration-300">
-                                <a href="checkout.html?product=${product.id}" class="block w-full bg-white/95 backdrop-blur text-brand-dark text-center py-2.5 rounded-full text-xs font-medium tracking-wide shadow-sm hover:bg-brand-dark hover:text-white transition-colors">
+                                <span class="block w-full bg-white/90 backdrop-blur text-brand-dark text-center py-2.5 rounded-sm text-[10px] uppercase tracking-[0.2em] font-medium shadow-sm group-hover:bg-brand-dark group-hover:text-white transition-colors">
                                     Buy Now
-                                </a>
+                                </span>
                             </div>
                         </div>
                         <div class="flex justify-between items-start mt-auto">
                             <div>
-                                <h3 class="font-serif text-lg md:text-xl text-brand-dark leading-snug mb-1 group-hover:text-brand-pink transition-colors cursor-pointer">${product.name}</h3>
-                                <p class="text-xs uppercase tracking-wider font-medium ${categoryColor}">${product.category}</p>
+                                <h3 class="font-serif text-lg md:text-xl text-brand-dark leading-snug mb-1 group-hover:text-brand-pink transition-colors">${product.name}</h3>
+                                <p class="text-[10px] uppercase tracking-[0.2em] font-medium ${categoryColor}">${product.category}</p>
                             </div>
-                            <span class="text-sm font-medium text-brand-dark">$${product.price.toFixed(2)} USD</span>
+                            <span class="text-sm font-medium text-brand-dark mt-1">$${parseFloat(product.price).toFixed(2)}</span>
                         </div>
                     `;
                     productsGrid.appendChild(card);
                 });
             }
-            renderProducts();
+
+            function renderHeroMarquee(allProducts) {
+                const marqueeTrack = document.getElementById('hero-marquee-track');
+                if (!marqueeTrack) return;
+
+                let allImages = [];
+                allProducts.forEach(p => {
+                    if (p.images && Array.isArray(p.images)) {
+                        allImages = allImages.concat(p.images);
+                    }
+                });
+
+                // Shuffle images
+                allImages.sort(() => 0.5 - Math.random());
+                
+                // Select 12 random images
+                const selectedImages = allImages.slice(0, 12);
+                const aspectRatios = ['aspect-[4/5]', 'aspect-[3/4]', 'aspect-square'];
+
+                let htmlContent = '';
+                selectedImages.forEach((imgUrl, index) => {
+                    const aspect = aspectRatios[index % aspectRatios.length];
+                    htmlContent += `<img src="${imgUrl}" alt="Hero Image ${index + 1}" onerror="this.onerror=null; this.src='./images/Placeholder.png';" class="h-full ${aspect} object-cover rounded-md shadow-soft opacity-80 mix-blend-multiply flex-shrink-0">`;
+                });
+
+                // Duplicate the set for seamless looping
+                marqueeTrack.innerHTML = htmlContent + htmlContent;
+            }
+
+            function renderHeroMarqueeFallback() {
+                const marqueeTrack = document.getElementById('hero-marquee-track');
+                if (!marqueeTrack) return;
+                const fallbackImage = `<img src="./images/Placeholder.png" alt="Fallback" class="h-full aspect-square object-cover rounded-md shadow-soft opacity-80 mix-blend-multiply flex-shrink-0">`;
+                marqueeTrack.innerHTML = fallbackImage.repeat(10);
+            }
+
+            initializeData();
 
             // --- 3. NAVIGATION INTERACTIONS ---
             const navbar = document.getElementById('navbar');
@@ -810,7 +1147,7 @@
                     navbar.classList.remove('py-2');
                 } else {
                     navbar.classList.remove('glass-nav', 'shadow-sm');
-                    if(!isMenuOpen) navbar.classList.add('py-2');
+                    if (!isMenuOpen) navbar.classList.add('py-2');
                 }
             });
 
@@ -839,63 +1176,18 @@
                 });
             });
 
-            // --- 4. HERO CAROUSEL LOGIC ---
-            const slides = document.querySelectorAll('.carousel-slide');
-            const dots = document.querySelectorAll('.carousel-dot');
-            let currentSlide = 0;
-            let slideInterval;
+            // --- 4. HERO MARQUEE (CSS Animated, no JS required here) ---
 
-            function showSlide(index) {
-                // Reset all
-                slides.forEach(slide => slide.classList.remove('active'));
-                dots.forEach(dot => {
-                    dot.classList.remove('bg-brand-dark', 'w-8');
-                    dot.classList.add('bg-brand-dark/30');
-                });
-
-                // Show target
-                slides[index].classList.add('active');
-                dots[index].classList.remove('bg-brand-dark/30');
-                dots[index].classList.add('bg-brand-dark', 'w-8');
-                
-                // Re-trigger animations in active slide
-                const reveals = slides[index].querySelectorAll('.gs-reveal');
-                gsap.fromTo(reveals, 
-                    { y: 30, opacity: 0 },
-                    { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "power2.out", clearProps: "all" }
-                );
-            }
-
-            function nextSlide() {
-                currentSlide = (currentSlide + 1) % slides.length;
-                showSlide(currentSlide);
-            }
-
-            // Init Autoplay
-            slideInterval = setInterval(nextSlide, 5000);
-
-            // Dot clicks
-            dots.forEach((dot, index) => {
-                dot.addEventListener('click', () => {
-                    clearInterval(slideInterval); // pause autoplay on user interaction
-                    currentSlide = index;
-                    showSlide(currentSlide);
-                    slideInterval = setInterval(nextSlide, 7000); // restart with longer delay
-                });
-            });
-            
-            // Initial animation for first slide
-            showSlide(0);
 
             // --- 5. FAQ ACCORDION ---
             const faqBtns = document.querySelectorAll('.faq-btn');
-            
+
             faqBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
+                btn.addEventListener('click', function () {
                     const content = this.nextElementSibling;
                     const icon = this.querySelector('.faq-icon');
                     const isExpanded = this.getAttribute('aria-expanded') === 'true';
-                    
+
                     // Close all others
                     faqBtns.forEach(otherBtn => {
                         if (otherBtn !== this) {
@@ -921,7 +1213,7 @@
             // --- 6. GSAP SCROLL ANIMATIONS ---
             // Only init animations if reduced motion is not preferred
             const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            
+
             if (!prefersReducedMotion) {
                 gsap.registerPlugin(ScrollTrigger);
 
@@ -942,7 +1234,7 @@
 
                 // Products Fade In
                 const products = document.querySelectorAll('#products-grid > div');
-                if(products.length > 0) {
+                if (products.length > 0) {
                     gsap.from(products, {
                         scrollTrigger: {
                             trigger: '#products-grid',
@@ -955,11 +1247,11 @@
                         ease: "power2.out"
                     });
                 }
-                
+
                 // Why Choose Us features stagger
                 const features = document.querySelectorAll('.grid-cols-1.md\\:grid-cols-3 > div');
-                if(features.length > 0) {
-                     gsap.from(features, {
+                if (features.length > 0) {
+                    gsap.from(features, {
                         scrollTrigger: {
                             trigger: features[0].parentNode,
                             start: "top 80%",
@@ -972,7 +1264,97 @@
                     });
                 }
             }
+
+            // --- 7. SEARCH OVERLAY LOGIC ---
+            const searchBtns = document.querySelectorAll('.search-btn');
+            const searchOverlay = document.getElementById('search-overlay');
+            const closeSearchBtn = document.getElementById('close-search-btn');
+            const searchInput = document.getElementById('global-search-input');
+            const executeSearchBtn = document.getElementById('execute-search-btn');
+
+            function openSearch() {
+                searchOverlay.classList.remove('hidden');
+                gsap.to(searchOverlay, { opacity: 1, duration: 0.4, ease: "power2.out" });
+                setTimeout(() => searchInput.focus(), 100);
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeSearch() {
+                gsap.to(searchOverlay, {
+                    opacity: 0,
+                    duration: 0.3,
+                    ease: "power2.in",
+                    onComplete: () => {
+                        searchOverlay.classList.add('hidden');
+                        document.body.style.overflow = '';
+                        searchInput.value = '';
+                    }
+                });
+            }
+
+            searchBtns.forEach(btn => btn.addEventListener('click', openSearch));
+            closeSearchBtn.addEventListener('click', closeSearch);
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !searchOverlay.classList.contains('hidden')) {
+                    closeSearch();
+                }
+            });
+
+            function executeRedirectSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    closeSearch();
+                    setTimeout(() => {
+                        window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
+                    }, 400); // Wait for close animation
+                }
+            }
+
+            executeSearchBtn.addEventListener('click', executeRedirectSearch);
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    executeRedirectSearch();
+                }
+            });
+
+            // --- GLOBAL SEARCH SUGGESTIONS LOGIC ---
+            let globalAllProducts = [];
+            fetch('data.json').then(res => res.json()).then(data => { globalAllProducts = data; }).catch(console.error);
+
+            const searchSuggestions = document.getElementById('search-suggestions');
+            
+            if (searchInput && searchSuggestions) {
+                searchInput.addEventListener('input', (e) => {
+                    const query = e.target.value.toLowerCase().trim();
+                    if (query.length > 0) {
+                        const filtered = globalAllProducts.filter(p => p.name.toLowerCase().includes(query) || p.description?.toLowerCase().includes(query));
+                        const top5 = filtered.slice(0, 5);
+                        
+                        if (top5.length > 0) {
+                            let htmlContent = '';
+                            top5.forEach(product => {
+                                const imageUrl = (product.images && product.images.length > 0) ? product.images[0] : './images/Placeholder.png';
+                                htmlContent += `
+                                <a href="product.html?id=${product.id}" class="flex items-center gap-4 p-3 hover:bg-brand-lightPeach/20 transition-colors border-b border-brand-dark/5 last:border-0 cursor-pointer">
+                                    <img src="${imageUrl}" alt="${product.name}" onerror="this.onerror=null; this.src='./images/Placeholder.png';" class="w-12 h-12 rounded-md object-cover flex-shrink-0">
+                                    <div class="flex flex-col overflow-hidden">
+                                        <span class="font-serif text-brand-dark text-lg truncate">${product.name}</span>
+                                        <span class="text-sm font-medium text-brand-pink">$${parseFloat(product.price).toFixed(2)} USD</span>
+                                    </div>
+                                </a>`;
+                            });
+                            searchSuggestions.innerHTML = htmlContent;
+                        } else {
+                            searchSuggestions.innerHTML = '<div class="p-4 text-center text-brand-dark/50 font-light">No patterns found.</div>';
+                        }
+                    } else {
+                        searchSuggestions.innerHTML = '';
+                    }
+                });
+            }
         });
     </script>
 </body>
+
 </html>

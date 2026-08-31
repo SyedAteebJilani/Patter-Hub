@@ -28,9 +28,11 @@
                             pink: '#E74A7C',
                             peach: '#E39794',
                             lightPeach: '#F2D3CC',
-                            green: '#8F9B53',
-                            yellow: '#F4E3B2',
-                            dark: '#2D2D2D',
+                            pleasingPink: '#F4E1E6', // New Luxury Bespoke Background
+                            whitishPink: '#FDF6F8', // Light Whitish Pink
+                            green: '#8F9B53',     // Natural accent
+                            yellow: '#F4E3B2',    // Warm highlight/background
+                            dark: '#2D2D2D',      // Text color                     
                             white: '#FAFAFA'
                         }
                     },
@@ -39,9 +41,9 @@
                         sans: ['"Inter"', 'sans-serif'],
                     },
                     boxShadow: {
-                        'soft': '0 10px 40px -10px rgba(0,0,0,0.05)',
-                        'floating': '0 20px 50px -20px rgba(231, 74, 124, 0.25)',
-                        'toggle': '0 4px 15px rgba(0,0,0,0.08)'
+                        'soft': '0 10px 40px -10px rgba(0,0,0,0.03)',
+                        'floating': '0 20px 50px -20px rgba(0,0,0,0.05)',
+                        'toggle': '0 4px 15px rgba(0,0,0,0.05)'
                     }
                 }
             }
@@ -54,7 +56,7 @@
             --color-secondary: #E39794;
             --color-accent-green: #8F9B53;
             --color-bg-warm: #F4E3B2;
-            --color-bg-light: #FAFAFA;
+            --color-bg-light: #F4E1E6; /* Pleasing Pink */
             --color-text: #2D2D2D;
         }
 
@@ -142,17 +144,43 @@
 </head>
 <body class="font-sans text-brand-dark selection:bg-brand-pink selection:text-white pb-10 md:pb-20">
 
-    <header class="w-full top-0 z-50 bg-brand-white/80 backdrop-blur-md sticky border-b border-brand-dark/5">
+    <header class="w-full top-0 z-50 sticky bg-brand-whitishPink/90 backdrop-blur-md border-b border-brand-pink/10" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <a href="index.html" class="flex-shrink-0 z-50 relative">
                     <span class="font-serif text-2xl tracking-wide font-semibold text-brand-pink">Pattern Hub</span>
                 </a>
                 
-                <a href="shop.html" class="text-sm font-medium text-brand-dark/60 hover:text-brand-pink transition-colors flex items-center space-x-2 group">
-                    <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                    <span>Return to Shop</span>
-                </a>
+                <div class="flex items-center space-x-6">
+                    <button class="search-btn text-brand-dark hover:text-brand-pink transition-colors focus:outline-none" aria-label="Search">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </button>
+                    <a href="shop.html" class="text-sm font-medium text-brand-dark/60 hover:text-brand-pink transition-colors flex items-center space-x-2 group">
+                        <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                        <span class="hidden sm:inline">Return to Shop</span>
+                        <span class="sm:hidden">Shop</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Global Search Overlay -->
+        <div id="search-overlay" class="fixed inset-0 bg-white z-[100] flex flex-col hidden opacity-0">
+            <div class="w-full flex justify-end p-6 md:p-10">
+                <button id="close-search-btn" class="text-brand-dark hover:text-brand-pink transition-colors focus:outline-none p-2">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="flex-grow flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full pb-32">
+                <h2 class="font-serif text-3xl md:text-5xl text-brand-dark mb-8 tracking-wide">What are you looking for?</h2>
+                <div class="w-full relative">
+                    <input type="text" id="global-search-input" placeholder="Search crochet patterns..." class="w-full bg-transparent border-b-2 border-brand-dark/20 text-2xl md:text-4xl text-brand-dark placeholder-brand-dark/30 pb-4 focus:outline-none focus:border-brand-pink transition-colors font-light">
+                    <button id="execute-search-btn" class="absolute right-2 top-2 text-brand-dark/50 hover:text-brand-pink transition-colors">
+                        <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </button>
+                    <div id="search-suggestions" class="absolute top-full left-0 w-full mt-2 bg-white rounded-xl shadow-floating max-h-[40vh] overflow-y-auto flex flex-col z-50 empty:hidden border border-brand-dark/5"></div>
+                </div>
+                <p class="text-sm font-light text-brand-dark/50 mt-6 tracking-wide">Press <kbd class="font-sans px-2 py-1 bg-white rounded border border-brand-dark/10 shadow-sm text-xs">Enter</kbd> to search</p>
             </div>
         </div>
     </header>
@@ -417,7 +445,7 @@
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             
             // --- 1. CENTRALIZED CONFIGURATION ---
             
@@ -437,54 +465,13 @@
             document.getElementById('payoneer-account').textContent = paymentDetails.international.payoneer;
 
             // --- 2. PRODUCT DATA SYSTEM ---
-            // Generates the exact 140 products to match the Shop page data structure
-            const baseCrochet = [
-                { name: "Summer Breeze Top", price: 12.00, image: "https://images.unsplash.com/photo-1601633519894-35dc51272718?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
-                { name: "Chunky Cozy Blanket", price: 10.00, image: "https://images.unsplash.com/photo-1584992236310-6edddc08acff?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
-                { name: "Boho Wall Hanging", price: 9.00, image: "https://images.unsplash.com/photo-1528359487770-9856fdbba1d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
-                { name: "Daisy Bucket Hat", price: 7.00, image: "https://images.unsplash.com/photo-1589254065878-42c9da997008?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
-                { name: "Vintage Cardigan", price: 16.00, image: "https://images.unsplash.com/photo-1574291196307-e837be704e67?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" }
-            ];
-
-            const baseSewing = [
-                { name: "Linen Wrap Dress", price: 15.00, image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
-                { name: "Classic Tote Bag", price: 8.00, image: "https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
-                { name: "Everyday Culottes", price: 14.00, image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
-                { name: "Silk Camisole", price: 11.00, image: "https://images.unsplash.com/photo-1520006403909-838d6b92c22e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" },
-                { name: "High-Waist Trousers", price: 18.00, image: "https://images.unsplash.com/photo-1584370848010-d7fe6bc767ec?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" }
-            ];
-
-            // Specific featured IDs from homepage
-            const featuredOverrides = [
-                { id: "prod_c01", name: "Summer Breeze Top", category: "Crochet", price: 12.00, image: baseCrochet[0].image },
-                { id: "prod_s01", name: "Linen Wrap Dress", category: "Sewing", price: 15.00, image: baseSewing[0].image },
-                { id: "prod_c02", name: "Chunky Cozy Blanket", category: "Crochet", price: 10.00, image: baseCrochet[1].image },
-                { id: "prod_s02", name: "Classic Tote Bag", category: "Sewing", price: 8.00, image: baseSewing[1].image },
-                { id: "prod_c03", name: "Boho Wall Hanging", category: "Crochet", price: 9.00, image: baseCrochet[2].image },
-                { id: "prod_s03", name: "Everyday Culottes", category: "Sewing", price: 14.00, image: baseSewing[2].image },
-                { id: "prod_c04", name: "Daisy Bucket Hat", category: "Crochet", price: 7.00, image: baseCrochet[3].image },
-                { id: "prod_s04", name: "Silk Camisole", category: "Sewing", price: 11.00, image: baseSewing[3].image },
-                { id: "prod_c05", name: "Vintage Cardigan", category: "Crochet", price: 16.00, image: baseCrochet[4].image },
-                { id: "prod_s05", name: "High-Waist Trousers", category: "Sewing", price: 18.00, image: baseSewing[4].image }
-            ];
-
-            const allProducts = [
-                ...featuredOverrides,
-                ...Array.from({ length: 70 }, (_, i) => ({
-                    id: `crochet_${(i + 1).toString().padStart(3, '0')}`,
-                    name: `${baseCrochet[i % 5].name} Vol. ${Math.floor(i / 5) + 1}`,
-                    category: "Crochet",
-                    price: baseCrochet[i % 5].price,
-                    image: baseCrochet[i % 5].image
-                })),
-                ...Array.from({ length: 70 }, (_, i) => ({
-                    id: `sewing_${(i + 1).toString().padStart(3, '0')}`,
-                    name: `${baseSewing[i % 5].name} Vol. ${Math.floor(i / 5) + 1}`,
-                    category: "Sewing",
-                    price: baseSewing[i % 5].price,
-                    image: baseSewing[i % 5].image
-                }))
-            ];
+            let allProducts = [];
+            try {
+                const response = await fetch('data.json');
+                allProducts = await response.json();
+            } catch (err) {
+                console.error("Failed to load products", err);
+            }
 
             // --- 3. DOM ELEMENTS ---
             const checkoutContainer = document.getElementById('checkout-container');
@@ -511,34 +498,30 @@
             // --- 4. INITIALIZATION (Product Lookup) ---
             const urlParams = new URLSearchParams(window.location.search);
             // Fallback to 'prod_c01' so the form is visible when previewed directly without a URL parameter
-            const productId = urlParams.get('product') || 'prod_c01';
+            const productId = urlParams.get('id') || urlParams.get('product') || 'prod_c01';
 
-            if (productId) {
+            if (productId && allProducts.length > 0) {
                 selectedProduct = allProducts.find(p => p.id === productId);
                 
                 if (selectedProduct) {
                     // Populate Main Summary
-                    document.getElementById('summary-image').src = selectedProduct.image;
+                    const imageUrl = (selectedProduct.images && selectedProduct.images.length > 0) ? selectedProduct.images[0] : './images/Placeholder.png';
+                    document.getElementById('summary-image').src = imageUrl;
                     document.getElementById('summary-name').textContent = selectedProduct.name;
                     document.getElementById('summary-category').textContent = selectedProduct.category;
                     
-                    const priceStr = `$${selectedProduct.price.toFixed(2)} USD`;
+                    const priceStr = `$${parseFloat(selectedProduct.price).toFixed(2)} USD`;
                     document.getElementById('summary-price').textContent = priceStr;
                     document.getElementById('instruction-price').textContent = priceStr;
                     
                     // Populate Success Summary
-                    document.getElementById('success-image').src = selectedProduct.image;
+                    document.getElementById('success-image').src = imageUrl;
                     document.getElementById('success-name').textContent = selectedProduct.name;
                     document.getElementById('success-price').textContent = priceStr;
 
-                    // Color coordinate category text
-                    if(selectedProduct.category === 'Sewing') {
-                        document.getElementById('summary-category').classList.replace('text-brand-pink', 'text-brand-green');
-                    }
-
                     // Reveal Checkout
                     checkoutContainer.classList.remove('hidden');
-                    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    if (typeof gsap !== 'undefined' && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
                         gsap.from("#checkout-container > *", {
                             y: 30, opacity: 0, duration: 0.8, stagger: 0.15, ease: "power2.out"
                         });
@@ -756,6 +739,97 @@
                         }
                     }
                 });
+            }
+
+            // --- SEARCH OVERLAY LOGIC ---
+            const searchBtns = document.querySelectorAll('.search-btn');
+            const searchOverlay = document.getElementById('search-overlay');
+            const closeSearchBtn = document.getElementById('close-search-btn');
+            const searchInput = document.getElementById('global-search-input');
+            const executeSearchBtn = document.getElementById('execute-search-btn');
+
+            if(searchOverlay) {
+                function openSearch() {
+                    searchOverlay.classList.remove('hidden');
+                    gsap.to(searchOverlay, { opacity: 1, duration: 0.4, ease: "power2.out" });
+                    setTimeout(() => searchInput.focus(), 100);
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeSearch() {
+                    gsap.to(searchOverlay, { 
+                        opacity: 0, 
+                        duration: 0.3, 
+                        ease: "power2.in",
+                        onComplete: () => {
+                            searchOverlay.classList.add('hidden');
+                            document.body.style.overflow = '';
+                            searchInput.value = '';
+                        }
+                    });
+                }
+
+                searchBtns.forEach(btn => btn.addEventListener('click', openSearch));
+                closeSearchBtn.addEventListener('click', closeSearch);
+                
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && !searchOverlay.classList.contains('hidden')) {
+                        closeSearch();
+                    }
+                });
+
+                function executeRedirectSearch() {
+                    const query = searchInput.value.trim();
+                    if (query) {
+                        closeSearch();
+                        setTimeout(() => {
+                            window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
+                        }, 400);
+                    }
+                }
+
+                executeSearchBtn.addEventListener('click', executeRedirectSearch);
+                searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        executeRedirectSearch();
+                    }
+                });
+
+                // --- GLOBAL SEARCH SUGGESTIONS LOGIC ---
+                let globalAllProducts = [];
+                fetch('data.json').then(res => res.json()).then(data => { globalAllProducts = data; }).catch(console.error);
+
+                const searchSuggestions = document.getElementById('search-suggestions');
+                
+                if (searchInput && searchSuggestions) {
+                    searchInput.addEventListener('input', (e) => {
+                        const query = e.target.value.toLowerCase().trim();
+                        if (query.length > 0) {
+                            const filtered = globalAllProducts.filter(p => p.name.toLowerCase().includes(query) || p.description?.toLowerCase().includes(query));
+                            const top5 = filtered.slice(0, 5);
+                            
+                            if (top5.length > 0) {
+                                let htmlContent = '';
+                                top5.forEach(product => {
+                                    const imageUrl = (product.images && product.images.length > 0) ? product.images[0] : './images/Placeholder.png';
+                                    htmlContent += `
+                                    <a href="product.html?id=${product.id}" class="flex items-center gap-4 p-3 hover:bg-brand-lightPeach/20 transition-colors border-b border-brand-dark/5 last:border-0 cursor-pointer">
+                                        <img src="${imageUrl}" alt="${product.name}" onerror="this.onerror=null; this.src='./images/Placeholder.png';" class="w-12 h-12 rounded-md object-cover flex-shrink-0">
+                                        <div class="flex flex-col overflow-hidden">
+                                            <span class="font-serif text-brand-dark text-lg truncate">${product.name}</span>
+                                            <span class="text-sm font-medium text-brand-pink">$${parseFloat(product.price).toFixed(2)} USD</span>
+                                        </div>
+                                    </a>`;
+                                });
+                                searchSuggestions.innerHTML = htmlContent;
+                            } else {
+                                searchSuggestions.innerHTML = '<div class="p-4 text-center text-brand-dark/50 font-light">No patterns found.</div>';
+                            }
+                        } else {
+                            searchSuggestions.innerHTML = '';
+                        }
+                    });
+                }
             }
         });
     </script>
