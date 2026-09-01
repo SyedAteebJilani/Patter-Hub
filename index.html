@@ -236,29 +236,26 @@
 
                 <!-- Desktop Navigation -->
                 <nav class="hidden md:flex space-x-8 items-center">
-                    <a href="#"
+                    <a href="index.html"
                         class="text-sm tracking-wide hover:text-brand-pink transition-colors link-underline">Home</a>
                     <a href="shop.html?category=crochet"
                         class="text-sm tracking-wide hover:text-brand-pink transition-colors link-underline">Crochet</a>
-                    <a href="./custom_order .html"
+                    <a href="custom_order.html"
                         class="text-sm tracking-wide hover:text-brand-pink transition-colors link-underline">Custom
                         Order</a>
-                    <a href="#about"
+                    <a href="index.html#about"
                         class="text-sm tracking-wide hover:text-brand-pink transition-colors link-underline">About</a>
-                    <a href="#faq"
+                    <a href="index.html#faq"
                         class="text-sm tracking-wide hover:text-brand-pink transition-colors link-underline">FAQ</a>
                 </nav>
 
                 <!-- Desktop CTA & Search -->
                 <div class="hidden md:flex items-center space-x-6">
-                    <button
-                        class="search-btn text-brand-dark hover:text-brand-pink transition-colors focus:outline-none"
-                        aria-label="Search">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
-                    </button>
+                                        <div class="relative hidden md:block w-48 lg:w-64">
+                        <input type="text" class="global-search-input w-full bg-white/50 backdrop-blur-sm border border-brand-dark/10 rounded-full pl-4 pr-10 py-2 text-sm text-brand-dark placeholder-brand-dark/50 focus:outline-none focus:bg-white focus:border-brand-pink transition-all" placeholder="Search patterns...">
+                        <svg class="w-4 h-4 absolute right-3 top-2.5 text-brand-dark/50 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        <div class="search-suggestions absolute top-full right-0 mt-2 w-72 bg-white rounded-xl shadow-floating max-h-[50vh] overflow-y-auto z-50 empty:hidden border border-brand-dark/5 flex flex-col text-left"></div>
+                    </div>
                     <a href="#shop-categories"
                         class="bg-brand-pink text-white px-6 py-2.5 rounded-full text-sm tracking-wide hover:bg-[#d43d6a] transition-colors shadow-floating">
                         Explore Collection
@@ -267,14 +264,7 @@
 
                 <!-- Mobile Icons -->
                 <div class="md:hidden flex items-center space-x-4 z-50 relative">
-                    <button
-                        class="search-btn text-brand-dark hover:text-brand-pink transition-colors focus:outline-none"
-                        aria-label="Search">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
-                    </button>
+                    
                     <button id="mobile-menu-btn" class="text-brand-dark focus:outline-none p-2"
                         aria-label="Toggle menu">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -290,13 +280,18 @@
         <div id="mobile-menu"
             class="fixed inset-0 bg-brand-whitishPink/95 backdrop-blur-xl z-40 flex flex-col justify-center items-center h-screen w-screen">
             <nav class="flex flex-col space-y-6 text-center w-full px-6">
-                <a href="#" class="mobile-link font-serif text-3xl text-brand-dark hover:text-brand-pink">Home</a>
+                <div class="relative w-full mb-6">
+                    <input type="text" class="global-search-input w-full bg-white/50 backdrop-blur-sm border border-brand-dark/10 rounded-full pl-4 pr-10 py-2 text-sm text-brand-dark placeholder-brand-dark/50 focus:outline-none focus:bg-white focus:border-brand-pink transition-all" placeholder="Search patterns...">
+                    <svg class="w-4 h-4 absolute right-3 top-2.5 text-brand-dark/50 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <div class="search-suggestions absolute top-full right-0 mt-2 w-72 bg-white rounded-xl shadow-floating max-h-[50vh] overflow-y-auto z-50 empty:hidden border border-brand-dark/5 flex flex-col text-left"></div>
+                </div>
+                <a href="index.html" class="mobile-link font-serif text-3xl text-brand-dark hover:text-brand-pink">Home</a>
                 <a href="shop.html?category=crochet"
                     class="mobile-link font-serif text-3xl text-brand-dark hover:text-brand-pink">Crochet</a>
-                <a href="./custom_order .html"
+                <a href="custom_order.html"
                     class="mobile-link font-serif text-3xl text-brand-dark hover:text-brand-pink">Custom Order</a>
-                <a href="#about" class="mobile-link font-serif text-3xl text-brand-dark hover:text-brand-pink">About</a>
-                <a href="#faq" class="mobile-link font-serif text-3xl text-brand-dark hover:text-brand-pink">FAQ</a>
+                <a href="index.html#about" class="mobile-link font-serif text-3xl text-brand-dark hover:text-brand-pink">About</a>
+                <a href="index.html#faq" class="mobile-link font-serif text-3xl text-brand-dark hover:text-brand-pink">FAQ</a>
                 <div class="pt-6">
                     <a href="#shop-categories"
                         class="inline-block bg-brand-pink text-white px-8 py-3 rounded-full text-base tracking-wide shadow-floating w-full max-w-xs">
@@ -306,40 +301,7 @@
             </nav>
         </div>
 
-        <!-- Global Search Overlay -->
-        <div id="search-overlay"
-            class="fixed inset-0 bg-white z-[100] flex flex-col hidden opacity-0">
-            <div class="w-full flex justify-end p-6 md:p-10">
-                <button id="close-search-btn"
-                    class="text-brand-dark hover:text-brand-pink transition-colors focus:outline-none p-2">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                            d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-            <div
-                class="flex-grow flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full pb-32">
-                <h2 class="font-serif text-3xl md:text-5xl text-brand-dark mb-8 tracking-wide">What are you looking for?
-                </h2>
-                <div class="w-full relative">
-                    <input type="text" id="global-search-input" placeholder="Search crochet patterns..."
-                        class="w-full bg-transparent border-b-2 border-brand-dark/20 text-2xl md:text-4xl text-brand-dark placeholder-brand-dark/30 pb-4 focus:outline-none focus:border-brand-pink transition-colors font-light">
-                    <button id="execute-search-btn"
-                        class="absolute right-2 top-2 text-brand-dark/50 hover:text-brand-pink transition-colors">
-                        <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
-                    </button>
-                    <div id="search-suggestions" class="absolute top-full left-0 w-full mt-2 bg-white rounded-xl shadow-floating max-h-[40vh] overflow-y-auto flex flex-col z-50 empty:hidden border border-brand-dark/5"></div>
-                </div>
-                <p class="text-sm font-light text-brand-dark/50 mt-6 tracking-wide">Press <kbd
-                        class="font-sans px-2 py-1 bg-white rounded border border-brand-dark/10 shadow-sm text-xs">Enter</kbd>
-                    to search</p>
-            </div>
-        </div>
-    </header>
+        </header>
 
     <main>
         <!-- HERO MARQUEE -->
@@ -971,13 +933,13 @@
                 <div>
                     <h4 class="font-medium tracking-widest text-xs uppercase text-white/40 mb-6">Explore</h4>
                     <ul class="space-y-4">
-                        <li><a href="#"
+                        <li><a href="index.html"
                                 class="text-white/80 hover:text-brand-pink transition-colors text-sm font-light">Home</a>
                         </li>
                         <li><a href="shop.html?category=crochet"
                                 class="text-white/80 hover:text-brand-pink transition-colors text-sm font-light">Crochet
                                 Patterns</a></li>
-                        <li><a href="./custom_order .html"
+                        <li><a href="custom_order.html"
                                 class="text-white/80 hover:text-brand-pink transition-colors text-sm font-light">Custom
                                 Order</a></li>
                     </ul>
@@ -987,13 +949,13 @@
                 <div>
                     <h4 class="font-medium tracking-widest text-xs uppercase text-white/40 mb-6">Information</h4>
                     <ul class="space-y-4">
-                        <li><a href="#about"
+                        <li><a href="index.html#about"
                                 class="text-white/80 hover:text-brand-pink transition-colors text-sm font-light">About
                                 Us</a></li>
-                        <li><a href="#faq"
+                        <li><a href="index.html#faq"
                                 class="text-white/80 hover:text-brand-pink transition-colors text-sm font-light">FAQ</a>
                         </li>
-                        <li><a href="#"
+                        <li><a href="mailto:designer@example.com"
                                 class="text-white/80 hover:text-brand-pink transition-colors text-sm font-light">Contact</a>
                         </li>
                     </ul>
@@ -1265,70 +1227,19 @@
                 }
             }
 
-            // --- 7. SEARCH OVERLAY LOGIC ---
-            const searchBtns = document.querySelectorAll('.search-btn');
-            const searchOverlay = document.getElementById('search-overlay');
-            const closeSearchBtn = document.getElementById('close-search-btn');
-            const searchInput = document.getElementById('global-search-input');
-            const executeSearchBtn = document.getElementById('execute-search-btn');
-
-            function openSearch() {
-                searchOverlay.classList.remove('hidden');
-                gsap.to(searchOverlay, { opacity: 1, duration: 0.4, ease: "power2.out" });
-                setTimeout(() => searchInput.focus(), 100);
-                document.body.style.overflow = 'hidden';
-            }
-
-            function closeSearch() {
-                gsap.to(searchOverlay, {
-                    opacity: 0,
-                    duration: 0.3,
-                    ease: "power2.in",
-                    onComplete: () => {
-                        searchOverlay.classList.add('hidden');
-                        document.body.style.overflow = '';
-                        searchInput.value = '';
-                    }
-                });
-            }
-
-            searchBtns.forEach(btn => btn.addEventListener('click', openSearch));
-            closeSearchBtn.addEventListener('click', closeSearch);
-
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && !searchOverlay.classList.contains('hidden')) {
-                    closeSearch();
-                }
-            });
-
-            function executeRedirectSearch() {
-                const query = searchInput.value.trim();
-                if (query) {
-                    closeSearch();
-                    setTimeout(() => {
-                        window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
-                    }, 400); // Wait for close animation
-                }
-            }
-
-            executeSearchBtn.addEventListener('click', executeRedirectSearch);
-            searchInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    executeRedirectSearch();
-                }
-            });
-
-            // --- GLOBAL SEARCH SUGGESTIONS LOGIC ---
+                        // --- GLOBAL SEARCH LOGIC ---
             let globalAllProducts = [];
             fetch('data.json').then(res => res.json()).then(data => { globalAllProducts = data; }).catch(console.error);
 
-            const searchSuggestions = document.getElementById('search-suggestions');
+            const searchInputs = document.querySelectorAll('.global-search-input');
             
-            if (searchInput && searchSuggestions) {
+            searchInputs.forEach(searchInput => {
+                const searchSuggestions = searchInput.nextElementSibling.nextElementSibling;
+                
                 searchInput.addEventListener('input', (e) => {
                     const query = e.target.value.toLowerCase().trim();
                     if (query.length > 0) {
-                        const filtered = globalAllProducts.filter(p => p.name.toLowerCase().includes(query) || p.description?.toLowerCase().includes(query));
+                        const filtered = globalAllProducts.filter(p => p.name.toLowerCase().includes(query) || (p.description && p.description.toLowerCase().includes(query)));
                         const top5 = filtered.slice(0, 5);
                         
                         if (top5.length > 0) {
@@ -1352,7 +1263,23 @@
                         searchSuggestions.innerHTML = '';
                     }
                 });
-            }
+                
+                searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        const query = searchInput.value.trim();
+                        if (query) {
+                            window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
+                        }
+                    }
+                });
+                
+                // Hide suggestions when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!searchInput.contains(e.target) && (!searchSuggestions || !searchSuggestions.contains(e.target))) {
+                        if (searchSuggestions) searchSuggestions.innerHTML = '';
+                    }
+                });
+            });
         });
     </script>
 </body>

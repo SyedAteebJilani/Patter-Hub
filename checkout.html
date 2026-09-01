@@ -152,9 +152,11 @@
                 </a>
                 
                 <div class="flex items-center space-x-6">
-                    <button class="search-btn text-brand-dark hover:text-brand-pink transition-colors focus:outline-none" aria-label="Search">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                    </button>
+                                        <div class="relative hidden md:block w-48 lg:w-64">
+                        <input type="text" class="global-search-input w-full bg-white/50 backdrop-blur-sm border border-brand-dark/10 rounded-full pl-4 pr-10 py-2 text-sm text-brand-dark placeholder-brand-dark/50 focus:outline-none focus:bg-white focus:border-brand-pink transition-all" placeholder="Search patterns...">
+                        <svg class="w-4 h-4 absolute right-3 top-2.5 text-brand-dark/50 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        <div class="search-suggestions absolute top-full right-0 mt-2 w-72 bg-white rounded-xl shadow-floating max-h-[50vh] overflow-y-auto z-50 empty:hidden border border-brand-dark/5 flex flex-col text-left"></div>
+                    </div>
                     <a href="shop.html" class="text-sm font-medium text-brand-dark/60 hover:text-brand-pink transition-colors flex items-center space-x-2 group">
                         <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                         <span class="hidden sm:inline">Return to Shop</span>
@@ -164,26 +166,7 @@
             </div>
         </div>
         
-        <!-- Global Search Overlay -->
-        <div id="search-overlay" class="fixed inset-0 bg-white z-[100] flex flex-col hidden opacity-0">
-            <div class="w-full flex justify-end p-6 md:p-10">
-                <button id="close-search-btn" class="text-brand-dark hover:text-brand-pink transition-colors focus:outline-none p-2">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-            <div class="flex-grow flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full pb-32">
-                <h2 class="font-serif text-3xl md:text-5xl text-brand-dark mb-8 tracking-wide">What are you looking for?</h2>
-                <div class="w-full relative">
-                    <input type="text" id="global-search-input" placeholder="Search crochet patterns..." class="w-full bg-transparent border-b-2 border-brand-dark/20 text-2xl md:text-4xl text-brand-dark placeholder-brand-dark/30 pb-4 focus:outline-none focus:border-brand-pink transition-colors font-light">
-                    <button id="execute-search-btn" class="absolute right-2 top-2 text-brand-dark/50 hover:text-brand-pink transition-colors">
-                        <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                    </button>
-                    <div id="search-suggestions" class="absolute top-full left-0 w-full mt-2 bg-white rounded-xl shadow-floating max-h-[40vh] overflow-y-auto flex flex-col z-50 empty:hidden border border-brand-dark/5"></div>
-                </div>
-                <p class="text-sm font-light text-brand-dark/50 mt-6 tracking-wide">Press <kbd class="font-sans px-2 py-1 bg-white rounded border border-brand-dark/10 shadow-sm text-xs">Enter</kbd> to search</p>
-            </div>
-        </div>
-    </header>
+        </header>
 
     <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 md:pt-16 min-h-[75vh]">
         
@@ -433,7 +416,7 @@
                 <a href="index.html" class="font-serif text-3xl text-brand-pink block">Pattern Hub</a>
                 <div class="flex flex-wrap justify-center gap-6">
                     <a href="shop.html" class="text-white/60 hover:text-brand-pink transition-colors text-sm font-light">Shop Catalog</a>
-                    <a href="index.html#custom-order" class="text-white/60 hover:text-brand-pink transition-colors text-sm font-light">Custom Order</a>
+                    <a href="custom_order.html" class="text-white/60 hover:text-brand-pink transition-colors text-sm font-light">Custom Order</a>
                     <a href="index.html#faq" class="text-white/60 hover:text-brand-pink transition-colors text-sm font-light">FAQ</a>
                 </div>
             </div>
@@ -741,96 +724,59 @@
                 });
             }
 
-            // --- SEARCH OVERLAY LOGIC ---
-            const searchBtns = document.querySelectorAll('.search-btn');
-            const searchOverlay = document.getElementById('search-overlay');
-            const closeSearchBtn = document.getElementById('close-search-btn');
-            const searchInput = document.getElementById('global-search-input');
-            const executeSearchBtn = document.getElementById('execute-search-btn');
+                        // --- GLOBAL SEARCH LOGIC ---
+            let globalAllProducts = [];
+            fetch('data.json').then(res => res.json()).then(data => { globalAllProducts = data; }).catch(console.error);
 
-            if(searchOverlay) {
-                function openSearch() {
-                    searchOverlay.classList.remove('hidden');
-                    gsap.to(searchOverlay, { opacity: 1, duration: 0.4, ease: "power2.out" });
-                    setTimeout(() => searchInput.focus(), 100);
-                    document.body.style.overflow = 'hidden';
-                }
-
-                function closeSearch() {
-                    gsap.to(searchOverlay, { 
-                        opacity: 0, 
-                        duration: 0.3, 
-                        ease: "power2.in",
-                        onComplete: () => {
-                            searchOverlay.classList.add('hidden');
-                            document.body.style.overflow = '';
-                            searchInput.value = '';
-                        }
-                    });
-                }
-
-                searchBtns.forEach(btn => btn.addEventListener('click', openSearch));
-                closeSearchBtn.addEventListener('click', closeSearch);
+            const searchInputs = document.querySelectorAll('.global-search-input');
+            
+            searchInputs.forEach(searchInput => {
+                const searchSuggestions = searchInput.nextElementSibling.nextElementSibling;
                 
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape' && !searchOverlay.classList.contains('hidden')) {
-                        closeSearch();
+                searchInput.addEventListener('input', (e) => {
+                    const query = e.target.value.toLowerCase().trim();
+                    if (query.length > 0) {
+                        const filtered = globalAllProducts.filter(p => p.name.toLowerCase().includes(query) || (p.description && p.description.toLowerCase().includes(query)));
+                        const top5 = filtered.slice(0, 5);
+                        
+                        if (top5.length > 0) {
+                            let htmlContent = '';
+                            top5.forEach(product => {
+                                const imageUrl = (product.images && product.images.length > 0) ? product.images[0] : './images/Placeholder.png';
+                                htmlContent += `
+                                <a href="product.html?id=${product.id}" class="flex items-center gap-4 p-3 hover:bg-brand-lightPeach/20 transition-colors border-b border-brand-dark/5 last:border-0 cursor-pointer">
+                                    <img src="${imageUrl}" alt="${product.name}" onerror="this.onerror=null; this.src='./images/Placeholder.png';" class="w-12 h-12 rounded-md object-cover flex-shrink-0">
+                                    <div class="flex flex-col overflow-hidden">
+                                        <span class="font-serif text-brand-dark text-lg truncate">${product.name}</span>
+                                        <span class="text-sm font-medium text-brand-pink">$${parseFloat(product.price).toFixed(2)} USD</span>
+                                    </div>
+                                </a>`;
+                            });
+                            searchSuggestions.innerHTML = htmlContent;
+                        } else {
+                            searchSuggestions.innerHTML = '<div class="p-4 text-center text-brand-dark/50 font-light">No patterns found.</div>';
+                        }
+                    } else {
+                        searchSuggestions.innerHTML = '';
                     }
                 });
-
-                function executeRedirectSearch() {
-                    const query = searchInput.value.trim();
-                    if (query) {
-                        closeSearch();
-                        setTimeout(() => {
-                            window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
-                        }, 400);
-                    }
-                }
-
-                executeSearchBtn.addEventListener('click', executeRedirectSearch);
+                
                 searchInput.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') {
-                        executeRedirectSearch();
+                        const query = searchInput.value.trim();
+                        if (query) {
+                            window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
+                        }
                     }
                 });
-
-                // --- GLOBAL SEARCH SUGGESTIONS LOGIC ---
-                let globalAllProducts = [];
-                fetch('data.json').then(res => res.json()).then(data => { globalAllProducts = data; }).catch(console.error);
-
-                const searchSuggestions = document.getElementById('search-suggestions');
                 
-                if (searchInput && searchSuggestions) {
-                    searchInput.addEventListener('input', (e) => {
-                        const query = e.target.value.toLowerCase().trim();
-                        if (query.length > 0) {
-                            const filtered = globalAllProducts.filter(p => p.name.toLowerCase().includes(query) || p.description?.toLowerCase().includes(query));
-                            const top5 = filtered.slice(0, 5);
-                            
-                            if (top5.length > 0) {
-                                let htmlContent = '';
-                                top5.forEach(product => {
-                                    const imageUrl = (product.images && product.images.length > 0) ? product.images[0] : './images/Placeholder.png';
-                                    htmlContent += `
-                                    <a href="product.html?id=${product.id}" class="flex items-center gap-4 p-3 hover:bg-brand-lightPeach/20 transition-colors border-b border-brand-dark/5 last:border-0 cursor-pointer">
-                                        <img src="${imageUrl}" alt="${product.name}" onerror="this.onerror=null; this.src='./images/Placeholder.png';" class="w-12 h-12 rounded-md object-cover flex-shrink-0">
-                                        <div class="flex flex-col overflow-hidden">
-                                            <span class="font-serif text-brand-dark text-lg truncate">${product.name}</span>
-                                            <span class="text-sm font-medium text-brand-pink">$${parseFloat(product.price).toFixed(2)} USD</span>
-                                        </div>
-                                    </a>`;
-                                });
-                                searchSuggestions.innerHTML = htmlContent;
-                            } else {
-                                searchSuggestions.innerHTML = '<div class="p-4 text-center text-brand-dark/50 font-light">No patterns found.</div>';
-                            }
-                        } else {
-                            searchSuggestions.innerHTML = '';
-                        }
-                    });
-                }
-            }
+                // Hide suggestions when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!searchInput.contains(e.target) && (!searchSuggestions || !searchSuggestions.contains(e.target))) {
+                        if (searchSuggestions) searchSuggestions.innerHTML = '';
+                    }
+                });
+            });
         });
     </script>
 </body>
