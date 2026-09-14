@@ -321,7 +321,8 @@
     </main>
 
     <!-- Mobile Sticky Buy Bar -->
-    <div class="md:hidden fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-xl border-t border-brand-dark/5 p-4 z-40 pb-8 shadow-[0_-10px_40px_rgba(0,0,0,0.08)]">
+    <div class="md:hidden fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-xl border-t border-brand-dark/5 p-4 z-50 pb-8 shadow-[0_-10px_40px_rgba(0,0,0,0.08)]">
+        <a id="mobile-buy-now-btn" href="#" class="w-full bg-brand-dark text-white py-4 px-8 rounded-sm text-xs tracking-[0.2em] uppercase font-light hover:bg-transparent hover:text-brand-dark border border-brand-dark transition-all duration-300 shadow-soft flex justify-center items-center group relative overflow-hidden">
             <span class="relative z-10">Buy Now</span>
             <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
         </a>
@@ -432,6 +433,10 @@
                 const buyBtn = document.getElementById('buy-now-btn');
                 if (buyBtn) {
                     buyBtn.href = `checkout.html?id=${product.id}`;
+                }
+                const mobileBuyBtn = document.getElementById('mobile-buy-now-btn');
+                if (mobileBuyBtn) {
+                    mobileBuyBtn.href = `checkout.html?id=${product.id}`;
                 }
 
                 // Render Galleries
